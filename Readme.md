@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владимир Сапронов](https://up.htmlacademy.ru/javascript/20/user/1213483).
-* Наставник: `Неизвестно`.
+* Наставник: [Анастасия Ничипорчук](https://up.htmlacademy.ru/javascript/20/user/612797).
 
 ---
 
