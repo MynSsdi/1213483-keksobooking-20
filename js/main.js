@@ -4,7 +4,7 @@ var ADS_AUTHOR_AVATAR = ['img/avatars/user01.png', 'img/avatars/user02.png', 'im
 var ADS_OFFER_TITLE = ['Заголовк 1', 'Заголовк 2', 'Заголовк 3', 'Заголовк 4', 'Заголовк 5', 'Заголовк 6', 'Заголовк 7', 'Заголовк 8'];
 var ADS_OFFER_ADDRESS = ['100, 130', '200, 200', '300', '270', '400, 340', '500, 410', '600, 500', '700, 600', '800, 630'];
 var ADS_OFFER_PRICE = ['100', '200', '300', '400', '500', '600', '700', '800'];
-var ADS_OFFER_TYPE = ['palace', 'flat', 'house',  'bungalo'];
+var ADS_OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var ADS_OFFER_ROOMS = ['1', '2', '3'];
 var ADS_OFFER_GUESTS = ['1', '2', '3'];
 var ADS_OFFER_CHECKIN = ['12:00', '13:00', '14:00'];
@@ -33,7 +33,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -55,7 +55,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -77,7 +77,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -99,7 +99,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -121,7 +121,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -143,7 +143,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -165,7 +165,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -187,7 +187,7 @@ var ads = [
       description: ADS_OFFER_DESCRIPTION,
       photos: ADS_OFFER_PHOTOS,
     },
-      location: {
+    location: {
       x: ADS_LOCATION_X,
       y: ADS_LOCATION_Y
     }
@@ -203,40 +203,38 @@ var getElement = function (adsАttribute) {
   return adsАttribute[indexElement];
 };
 
-var createCardData = function (ads) {
-  ads.author.avatar = getElement(ADS_AUTHOR_AVATAR);
+var createCardData = function (cardData) {
+  cardData.author.avatar = getElement(ADS_AUTHOR_AVATAR);
 
-  ads.offer.title = getElement(ADS_OFFER_TITLE);
-  ads.offer.address = getElement(ADS_OFFER_ADDRESS);
-  ads.offer.price = getElement(ADS_OFFER_PRICE);
-  ads.offer.type = getElement(ADS_OFFER_TYPE);
-  ads.offer.rooms = getElement(ADS_OFFER_ROOMS);
-  ads.offer.guests = getElement(ADS_OFFER_GUESTS);
-  ads.offer.checkin = getElement(ADS_OFFER_CHECKIN);
-  ads.offer.checkout = getElement(ADS_OFFER_CHECKOUT);
-  ads.offer.features = getElement(ADS_OFFER_FEATURES);
-  ads.offer.description = getElement(ADS_OFFER_DESCRIPTION);
-  ads.offer.protos = getElement(ADS_OFFER_PHOTOS);
+  cardData.offer.title = getElement(ADS_OFFER_TITLE);
+  cardData.offer.address = getElement(ADS_OFFER_ADDRESS);
+  cardData.offer.price = getElement(ADS_OFFER_PRICE);
+  cardData.offer.type = getElement(ADS_OFFER_TYPE);
+  cardData.offer.rooms = getElement(ADS_OFFER_ROOMS);
+  cardData.offer.guests = getElement(ADS_OFFER_GUESTS);
+  cardData.offer.checkin = getElement(ADS_OFFER_CHECKIN);
+  cardData.offer.checkout = getElement(ADS_OFFER_CHECKOUT);
+  cardData.offer.features = getElement(ADS_OFFER_FEATURES);
+  cardData.offer.description = getElement(ADS_OFFER_DESCRIPTION);
+  cardData.offer.protos = getElement(ADS_OFFER_PHOTOS);
 
-  ads.location.x = getElement(ADS_LOCATION_X);
-  ads.location.y = getElement(ADS_LOCATION_Y);
+  cardData.location.x = getElement(ADS_LOCATION_X);
+  cardData.location.y = getElement(ADS_LOCATION_Y);
 };
 
-var createAdsPin = function (ads) {
-  createCardData(ads);
+var createAdsPin = function (adsData) {
+  createCardData(adsData);
 
   var adsPin = adsPinTemplate.cloneNode(true);
 
-  adsPin.style.left= ads.location.x;
-  adsPin.style.top = ads.location.y;
+  adsPin.style.left = adsData.location.x;
+  adsPin.style.top = adsData.location.y;
   var imagePin = adsPin.querySelector('img');
 
-  imagePin.src = ads.author.avatar;
-  imagePin.alt = ads.offer.title;
+  imagePin.src = adsData.author.avatar;
+  imagePin.alt = adsData.offer.title;
   return adsPin;
 };
-
-
 
 var fragment = document.createDocumentFragment();
 for (var i = 0; i < ads.length; i++) {
