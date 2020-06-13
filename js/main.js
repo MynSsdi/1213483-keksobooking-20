@@ -15,231 +15,87 @@ var ADS_OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'h
 var ADS_LOCATION_X = ['100px', '200px', '300px', '400px', '500px', '600px', '700px', '800px'];
 var ADS_LOCATION_Y = ['130px', '200px', '270px', '340px', '410px', '500px', '600px', '630px'];
 
-var ads = [
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  },
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  },
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  },
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  },
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  },
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  },
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  },
-  {
-    author: {
-      avatar: ADS_AUTHOR_AVATAR,
-    },
-    offer: {
-      title: ADS_OFFER_TITLE,
-      address: ADS_OFFER_ADDRESS,
-      price: ADS_OFFER_PRICE,
-      type: ADS_OFFER_TYPE,
-      rooms: ADS_OFFER_ROOMS,
-      guests: ADS_OFFER_GUESTS,
-      checkin: ADS_OFFER_CHECKIN,
-      checkout: ADS_OFFER_CHECKOUT,
-      features: ADS_OFFER_FEATURES,
-      description: ADS_OFFER_DESCRIPTION,
-      photos: ADS_OFFER_PHOTOS,
-    },
-    location: {
-      x: ADS_LOCATION_X,
-      y: ADS_LOCATION_Y
-    }
-  }
+var COUNT_RENTER = 8;
+
+var DataRenterList = [
+  ADS_AUTHOR_AVATAR,
+  ADS_OFFER_TITLE,
+  ADS_OFFER_ADDRESS,
+  ADS_OFFER_PRICE,
+  ADS_OFFER_TYPE,
+  ADS_OFFER_ROOMS,
+  ADS_OFFER_GUESTS,
+  ADS_OFFER_CHECKIN,
+  ADS_OFFER_CHECKOUT,
+  ADS_OFFER_FEATURES,
+  ADS_OFFER_DESCRIPTION,
+  ADS_OFFER_PHOTOS,
+  ADS_LOCATION_X,
+  ADS_LOCATION_Y
 ];
 
 var adsPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
 document.querySelector('.map').classList.remove('.map--faded');
 
-var getElement = function (adsАttribute) {
-  var indexElement = Math.floor(Math.random() * Math.floor(adsАttribute.length));
-  return adsАttribute[indexElement];
+var getRandomElement = function (arrayElement) {
+  var indexElement = Math.floor(Math.random() * Math.floor(arrayElement.length));
+  return arrayElement[indexElement];
 };
 
-var createCardData = function (cardData) {
-  cardData.author.avatar = getElement(ADS_AUTHOR_AVATAR);
-
-  cardData.offer.title = getElement(ADS_OFFER_TITLE);
-  cardData.offer.address = getElement(ADS_OFFER_ADDRESS);
-  cardData.offer.price = getElement(ADS_OFFER_PRICE);
-  cardData.offer.type = getElement(ADS_OFFER_TYPE);
-  cardData.offer.rooms = getElement(ADS_OFFER_ROOMS);
-  cardData.offer.guests = getElement(ADS_OFFER_GUESTS);
-  cardData.offer.checkin = getElement(ADS_OFFER_CHECKIN);
-  cardData.offer.checkout = getElement(ADS_OFFER_CHECKOUT);
-  cardData.offer.features = getElement(ADS_OFFER_FEATURES);
-  cardData.offer.description = getElement(ADS_OFFER_DESCRIPTION);
-  cardData.offer.protos = getElement(ADS_OFFER_PHOTOS);
-
-  cardData.location.x = getElement(ADS_LOCATION_X);
-  cardData.location.y = getElement(ADS_LOCATION_Y);
+var getArrayDataRenterElement = function (arrayList) {
+  var arrayDataRenter = {
+    author: {
+      avatar: getRandomElement(arrayList[0])
+    },
+    offer: {
+      title: getRandomElement(arrayList[1]),
+      address: getRandomElement(arrayList[2]),
+      price: getRandomElement(arrayList[3]),
+      type: getRandomElement(arrayList[4]),
+      rooms: getRandomElement(arrayList[5]),
+      guests: getRandomElement(arrayList[6]),
+      checkin: getRandomElement(arrayList[7]),
+      checkout: getRandomElement(arrayList[8]),
+      features: getRandomElement(arrayList[9]),
+      description: getRandomElement(arrayList[10]),
+      photos: getRandomElement(arrayList[11])
+    },
+    location: {
+      x: getRandomElement(arrayList[12]),
+      y: getRandomElement(arrayList[13])
+    }
+  }
+  return arrayDataRenter;
 };
 
-var createAdsPin = function (adsData) {
-  createCardData(adsData);
+var getArrayDataRenterList = function (arrayRenters) {
+  var arrayDataRenters = [];
+  var arrayDataRenters = getArrayDataRenterElement(arrayRenters);
+  return arrayDataRenters;
+}
 
-  var adsPin = adsPinTemplate.cloneNode(true);
+var createDOMRenterItem = function (arrayRenters) {
+  var DOMRenterItem = adsPinTemplate.cloneNode(true);
 
-  adsPin.style.left = adsData.location.x;
-  adsPin.style.top = adsData.location.y;
-  var imagePin = adsPin.querySelector('img');
+  DOMRenterItem.style.left = arrayRenters.location.x;
+  DOMRenterItem.style.top = arrayRenters.location.y;
 
-  imagePin.src = adsData.author.avatar;
-  imagePin.alt = adsData.offer.title;
-  return adsPin;
+  var DOMRenterItemImage = DOMRenterItem.querySelector('img');
+
+  DOMRenterItemImage.src = arrayRenters.author.avatar;
+  DOMRenterItemImage.alt = arrayRenters.offer.title;
+
+  return DOMRenterItem;
 };
 
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < ads.length; i++) {
-  fragment.appendChild(createAdsPin(ads[i]));
+var createDOMRenterList = function (DataRenterList) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < COUNT_RENTER; i++) {
+    fragment.appendChild(createDOMRenterItem(getArrayDataRenterList(DataRenterList)));
+  }
+  return fragment;
 }
 
 var mapPins = document.querySelector('.map__pins');
-mapPins.appendChild(fragment);
+mapPins.appendChild(createDOMRenterList(DataRenterList));
