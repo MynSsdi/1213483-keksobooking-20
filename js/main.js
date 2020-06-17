@@ -1,34 +1,34 @@
 'use strict';
+var MAX_PRICE = 1000000;
+var COUNT_RENTERS = 8;
 
-var ADS_AUTHOR_AVATAR = ['img/avatars/user01.png', 'img/avatars/user02.png', 'img/avatars/user03.png', 'img/avatars/user04.png', 'img/avatars/user05.png', 'img/avatars/user06.png', 'img/avatars/user07.png', 'img/avatars/user08.png'];
-var ADS_OFFER_TITLE = ['Заголовк 1', 'Заголовк 2', 'Заголовк 3', 'Заголовк 4', 'Заголовк 5', 'Заголовк 6', 'Заголовк 7', 'Заголовк 8'];
-var ADS_OFFER_ADDRESS = ['100, 130', '200, 200', '300', '270', '400, 340', '500, 410', '600, 500', '700, 600', '800, 630'];
-var ADS_OFFER_PRICE = ['100', '200', '300', '400', '500', '600', '700', '800'];
-var ADS_OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
-var ADS_OFFER_ROOMS = ['1', '2', '3'];
-var ADS_OFFER_GUESTS = ['1', '2', '3'];
+var ADS_AUTHOR_AVATARS = ['img/avatars/user01.png', 'img/avatars/user02.png', 'img/avatars/user03.png', 'img/avatars/user04.png', 'img/avatars/user05.png', 'img/avatars/user06.png', 'img/avatars/user07.png', 'img/avatars/user08.png'];
+var ADS_OFFER_TITLES = ['Заголовк 1', 'Заголовк 2', 'Заголовк 3', 'Заголовк 4', 'Заголовк 5', 'Заголовк 6', 'Заголовк 7', 'Заголовк 8'];
+var ADS_OFFER_ADDRESSES;
+var ADS_OFFER_PRICES = [];
+var ADS_OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var ADS_OFFER_ROOMS = ['1', '2', '3', '100'];
+var ADS_OFFER_GUESTS = ['1', '2', '3', 'не для гостей'];
 var ADS_OFFER_CHECKIN = ['12:00', '13:00', '14:00'];
 var ADS_OFFER_CHECKOUT = ['12:00', '13:00', '14:00'];
 var ADS_OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var ADS_OFFER_DESCRIPTION = ['Описание 1', 'Описание 2', 'Описание 3', 'Описание 4', 'Описание 5', 'Описание 6', 'Описание 7', 'Описание 8'];
+var ADS_OFFER_DESCRIPTIONS = ['Описание 1', 'Описание 2', 'Описание 3', 'Описание 4', 'Описание 5', 'Описание 6', 'Описание 7', 'Описание 8'];
 var ADS_OFFER_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var ADS_LOCATION_X = ['100px', '200px', '300px', '400px', '500px', '600px', '700px', '800px'];
-var ADS_LOCATION_Y = ['130px', '200px', '270px', '340px', '410px', '500px', '600px', '630px'];
-
-var COUNT_RENTER = 8;
+var ADS_LOCATION_X;
+var ADS_LOCATION_Y;
 
 var DataRenterList = [
-  ADS_AUTHOR_AVATAR,
-  ADS_OFFER_TITLE,
-  ADS_OFFER_ADDRESS,
-  ADS_OFFER_PRICE,
-  ADS_OFFER_TYPE,
+  ADS_AUTHOR_AVATARS,
+  ADS_OFFER_TITLES,
+  ADS_OFFER_ADDRESSES,
+  ADS_OFFER_PRICES,
+  ADS_OFFER_TYPES,
   ADS_OFFER_ROOMS,
   ADS_OFFER_GUESTS,
   ADS_OFFER_CHECKIN,
   ADS_OFFER_CHECKOUT,
   ADS_OFFER_FEATURES,
-  ADS_OFFER_DESCRIPTION,
+  ADS_OFFER_DESCRIPTIONS,
   ADS_OFFER_PHOTOS,
   ADS_LOCATION_X,
   ADS_LOCATION_Y
@@ -45,16 +45,35 @@ var getRandomElement = function (arrayElement) {
   return arrayElement[indexElement];
 };
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max + 1 - min)) + min;
+}
+
 var getArrayDataRenterElement = function (arrayList) {
+  var locationX = getRandomInt(100, 800);
+  var locationY = getRandomInt(130, 630);
+  var minPrice = 0;
+  var typeHouse = getRandomElement(arrayList[4]);
+  switch (typeHouse) {
+    case 'flat':
+      minPrice = 1000;
+      break;
+    case 'house':
+      minPrice = 5000;
+      break;
+    case 'palace':
+      minPrice = 10000;
+      break;
+  }
   var arrayDataRenter = {
     author: {
       avatar: getRandomElement(arrayList[0])
     },
     offer: {
       title: getRandomElement(arrayList[1]),
-      address: getRandomElement(arrayList[2]),
-      price: getRandomElement(arrayList[3]),
-      type: getRandomElement(arrayList[4]),
+      address: [locationX + ', ' + locationY],
+      price: getRandomInt(minPrice, MAX_PRICE),
+      type: typeHouse,
       rooms: getRandomElement(arrayList[5]),
       guests: getRandomElement(arrayList[6]),
       checkin: getRandomElement(arrayList[7]),
@@ -64,8 +83,8 @@ var getArrayDataRenterElement = function (arrayList) {
       photos: [getRandomElement(arrayList[11])]
     },
     location: {
-      x: getRandomElement(arrayList[12]),
-      y: getRandomElement(arrayList[13])
+      x: locationX + 'px',
+      y: locationY + 'px'
     }
   };
   return arrayDataRenter;
@@ -92,7 +111,7 @@ var createDOMRenterItem = function (arrayRenters) {
 var createDOMRenterList = function (pDataRenterList) {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < COUNT_RENTER; i++) {
+  for (var i = 0; i < COUNT_RENTERS; i++) {
     arrayDataRenterList[i] = getArrayDataRenterList(pDataRenterList);
     fragment.appendChild(createDOMRenterItem(arrayDataRenterList[i]));
   }
