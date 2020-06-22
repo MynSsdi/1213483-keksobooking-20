@@ -25,7 +25,7 @@
         </div>
         <button class="map__pin map__pin--main" style="left: 570px; top: 375px;">
           <img src="img/muffin-red.svg" width="40" height="44" draggable="false" alt="Метка объявления">
-          <svg viewBox="0 0 70 70" width="156" height="156" aria-label="Метка для поиска жилья">
+          <svg class="map__pin-svg" viewBox="0 0 70 70" width="156" height="156" aria-label="Метка для поиска жилья">
             <defs>
               <path d="M35,35m-23,0a23,23 0 1,1 46,0a23,23 0 1,1 -46,0" id="tophalf" />
             </defs>
@@ -104,7 +104,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес</label>
-          <input id="address" name="address" type="text">
+          <input class="ad-form__address" id="address" name="address" type="text">
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -134,7 +134,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="room_number">Количество комнат</label>
-          <select id="room_number" name="rooms">
+          <select class="ad-form__rooms" id="room_number" name="rooms">
             <option value="1" selected>1 комната</option>
             <option value="2">2 комнаты</option>
             <option value="3">3 комнаты</option>
@@ -143,7 +143,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
-          <select id="capacity" name="capacity">
+          <select class="ad-form__capacity" id="capacity" name="capacity">
             <option value="3" selected>для 3 гостей</option>
             <option value="2">для 2 гостей</option>
             <option value="1">для 1 гостя</option>

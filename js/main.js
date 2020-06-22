@@ -34,11 +34,11 @@ var DataRenterList = [
   ADS_LOCATION_Y
 ];
 
+var activationPage = function () {
+
 var arrayDataRenterList = [];
 
 var adsPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-
-document.querySelector('.map').classList.remove('.map--faded');
 
 var getRandomElement = function (arrayElement) {
   var indexElement = Math.floor(Math.random() * Math.floor(arrayElement.length));
@@ -121,9 +121,13 @@ var createDOMRenterList = function (pDataRenterList) {
 var mapPins = document.querySelector('.map__pins');
 mapPins.appendChild(createDOMRenterList(DataRenterList));
 
+return arrayDataRenterList;
+
+};
 
 // module3-task3
 
+/* МЕТОД ОТРИСОВКИ КАРТОЧКИ
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var cardTemplateContent = cardTemplate.cloneNode(true);
 
@@ -136,6 +140,7 @@ cardTemplateContent.querySelector('.popup__text--time').textContent = 'Заез�
 cardTemplateContent.querySelector('.popup__description').textContent = arrayDataRenterList[0].offer.description;
 cardTemplateContent.querySelector('.popup__avatar').src = arrayDataRenterList[0].author.avatar;
 
+*/
 
 /* Если один элемент
 
@@ -153,6 +158,7 @@ var popup__features = cardTemplateContent.querySelector('.popup__features');
 
 // Иммитация отображения массива преимуществ больше одного элемента
 
+/*
 var renderFeature = function () {
   var feature = [];
   feature = ['wifi', 'washer', 'dishwasher'];
@@ -190,3 +196,97 @@ var renderPhotos = function (pArrayDataRenterList) {
 renderPhotos(arrayDataRenterList[0]);
 
 mapPins.after(cardTemplateContent);
+*/
+
+//module4-task2
+
+
+  var adForm = document.querySelector('.ad-form');
+  var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
+  var addressAdForm = adForm.querySelector('.ad-form__address');
+
+  var mapFiltersForm = document.querySelector('.map__filters');
+  mapFiltersForm.classList.add('ad-form--disabled');
+  var selectMapFiltersForm = mapFiltersForm.querySelectorAll('select');
+
+  for (var fieldset of fieldsetsAdForm) {
+    fieldset.setAttribute('disabled','');
+  };
+
+  for (var select of selectMapFiltersForm) {
+    select.setAttribute('disabled','');
+  };
+
+  var mapPinMain = document.querySelector('.map__pin--main');
+  var mapPinMapSvg = mapPinMain.querySelector('.map__pin-svg');
+  var centerX = mapPinMapSvg.getAttribute('width') / 2;
+  var centerY = mapPinMapSvg.getAttribute('height') / 2;
+  addressAdForm.value = centerX + ', ' + centerY;
+
+  var setAddressMapPin = function () {
+    var localPinMap = activationPage();
+
+    var left = parseInt(localPinMap[0].location.x);
+    var top = parseInt(localPinMap[0].location.y);
+    addressAdForm.value = Math.round(left + left / 2) + ', ' + Math.round(top + 70);
+  };
+
+var enabledElementForm = function (evt) {
+  if (evt.button === 0 || evt.keyCode === 13) {
+
+    document.querySelector('.map').classList.remove('.map--faded');
+    adForm.classList.remove('ad-form--disabled');
+    mapFiltersForm.classList.remove('ad-form--disabled');
+
+    for (var fieldset of fieldsetsAdForm) {
+      fieldset.removeAttribute('disabled');
+    };
+
+    for (var select of selectMapFiltersForm) {
+      select.removeAttribute('disabled');
+    };
+
+    setAddressMapPin();
+  }
+};
+
+mapPinMain.addEventListener('mousedown', enabledElementForm);
+
+mapPinMain.addEventListener('keydown', enabledElementForm);
+
+var rooms = adForm.querySelector('.ad-form__rooms');
+var capacity = adForm.querySelector('.ad-form__capacity');
+
+rooms.addEventListener('change', function () {
+  var numberRooms = rooms.value;
+  switch (numberRooms) {
+    case '1':
+      capacity[0].setAttribute('disabled', '');
+      capacity[1].setAttribute('disabled', '');
+      capacity[3].setAttribute('disabled', '');
+      capacity[2].removeAttribute('disabled');
+      capacity[0].setAttribute('selected', '');
+      break;
+    case '2':
+      capacity[0].setAttribute('disabled', '');
+      capacity[3].setAttribute('disabled', '');
+      capacity[1].removeAttribute('disabled');
+      capacity[2].removeAttribute('disabled');
+      capacity[1].setAttribute('selected', '');
+      break;
+    case '3':
+      capacity[3].setAttribute('disabled', '');
+      capacity[0].removeAttribute('disabled');
+      capacity[1].removeAttribute('disabled');
+      capacity[2].removeAttribute('disabled');
+      capacity[2].setAttribute('selected', '');
+      break;
+    case '100':
+      capacity[0].setAttribute('disabled', '');
+      capacity[1].setAttribute('disabled', '');
+      capacity[2].setAttribute('disabled', '');
+      capacity[3].removeAttribute('disabled');
+      capacity[3].setAttribute('selected', '');
+      break;
+}
+});
