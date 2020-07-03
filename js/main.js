@@ -1,6 +1,15 @@
 'use strict';
+
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGTH = 100;
+
 var MAX_PRICE = 1000000;
 var MIN_PRICE = 0;
+var MIN_PRICE_FLAT = 1000;
+var MIN_PRICE_HOUSE = 5000;
+var MIN_PRICE_PALACE = 10000;
+
+
 var COUNT_RENTERS = 8;
 
 var ADS_AUTHOR_AVATARS = ['img/avatars/user01.png', 'img/avatars/user02.png', 'img/avatars/user03.png', 'img/avatars/user04.png', 'img/avatars/user05.png', 'img/avatars/user06.png', 'img/avatars/user07.png', 'img/avatars/user08.png'];
@@ -59,18 +68,6 @@ function getRandomInt(min, max) {
 var getArrayDataRenterElement = function () {
   var locationX = getRandomInt(100, 800);
   var locationY = getRandomInt(130, 630);
-  /*  var typeHouse = getRandomElement(ADS_OFFER_TYPES);
-  switch (typeHouse) {
-    case 'flat':
-      minPrice = 1000;
-      break;
-    case 'house':
-      minPrice = 5000;
-      break;
-    case 'palace':
-      minPrice = 10000;
-      break;
-  }*/
   var arrayDataRenter = {
     author: {
       avatar: getRandomElement(ADS_AUTHOR_AVATARS)
@@ -237,6 +234,7 @@ var preActivationForm = function () {
 
 preActivationForm();
 
+
 var validateNumberRoomsGuestsForm = function () {
   var rooms = adForm.querySelector('.ad-form__rooms');
   var capacity = adForm.querySelector('.ad-form__capacity');
@@ -287,3 +285,128 @@ var validateNumberRoomsGuestsForm = function () {
 };
 
 validateNumberRoomsGuestsForm();
+
+/* var adForm = document.querySelector('.ad-form');
+adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    var adFormTitle = adForm.querySelector('.ad-form__title');
+    console.log(adFormTitle);
+    var lengthString = adFormTitle.value.length;
+    console.log(lengthString);
+    if (lengthString < 30) {
+      adFormTitle.setCustomValidity('Нужно ввести минимум 30 символов!');
+      console.log(lengthString);
+    } else if (lengthString > 100) {
+      adFormTitle.setCustomValidity('Строка не должна быть больше 100 символов!');
+    } else {
+      adFormTitle.setCustomValidity('');
+    }
+});*/
+
+var adFormTitle = adForm.querySelector('.ad-form__title');
+
+
+adFormTitle.addEventListener('invalid', function () {
+  if (adFormTitle.validity.valueMissing) {
+    adFormTitle.setCustomValidity('Обязательное поле!');
+  } else {
+    adFormTitle.setCustomValidity('');
+  }
+});
+
+adFormTitle.addEventListener('input', function () {
+  var valueLength = adFormTitle.value.length;
+  if (valueLength < MIN_TITLE_LENGTH) {
+    adFormTitle.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_TITLE_LENGTH) {
+    adFormTitle.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) + 'симв.');
+  } else {
+    adFormTitle.setCustomValidity('');
+  }
+});
+
+
+var adFormType = adForm.querySelector('.ad-form__type');
+var adFormPrice = adForm.querySelector('.ad-form__price');
+var adFormPricePlaceholder = MIN_PRICE_FLAT;
+var adFormTypeChild = adFormType.querySelector('[value=flat]');
+adFormPrice.value = adFormPricePlaceholder;
+
+adFormType.addEventListener('change', function () {
+  var adFormTypeValue = adFormType.value;
+  switch (adFormTypeValue) {
+    case 'bungalo':
+      adFormPricePlaceholder = MIN_PRICE;
+      adFormPrice.value = adFormPricePlaceholder;
+      adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
+      break;
+    case 'flat':
+      adFormPricePlaceholder = MIN_PRICE_FLAT;
+      adFormPrice.value = adFormPricePlaceholder;
+      adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
+      break;
+    case 'house':
+      adFormPricePlaceholder = MIN_PRICE_HOUSE;
+      adFormPrice.value = adFormPricePlaceholder;
+      adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
+      break;
+    case 'palace':
+      adFormPricePlaceholder = MIN_PRICE_PALACE;
+      adFormPrice.value = adFormPricePlaceholder;
+      adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
+      break;
+  }
+});
+
+adFormPrice.addEventListener('change', function () {
+  var adFormPriceValue = parseInt(adFormPrice.value, 10);
+  if (adFormPriceValue < adFormPricePlaceholder) {
+    adFormPrice.setCustomValidity('Минимальная цена для типа жилья: ' + adFormTypeChild.textContent + ' составляет ' + adFormPricePlaceholder);
+  } else if (adFormPriceValue > MAX_PRICE) {
+    adFormPrice.setCustomValidity('Максимальная цена жилья составляет 1 000 000');
+  } else {
+    adFormPrice.setCustomValidity('');
+  }
+});
+
+var timeIn = adForm.querySelector('.ad-form__timeIn');
+var timeOut = adForm.querySelector('.ad-form__timeOut');
+
+timeIn.addEventListener('change', function () {
+  timeOut.value = timeIn.value;
+});
+
+timeOut.addEventListener('change', function () {
+  timeIn.value = timeOut.value;
+});
+
+var adFormImages = adForm.querySelector('.ad-form__images');
+
+adFormImages.addEventListener('change', function () {
+  // var adFormPhoto = adForm.querySelector('.ad-form__photo');
+  var adFormPhotoFileType = adFormImages.files[0].type;
+  if (adFormPhotoFileType === 'image/png' || adFormPhotoFileType === 'image/jpeg') {
+    adFormImages.setCustomValidity('Файл выбран');
+  } else {
+    adFormImages.setCustomValidity('Выберите, пожалуйста, файл с расширеним JPG или PNG');
+  }
+  /*  var img = new Image(70, 70);
+    img.src = adFormImages.value;
+    adFormPhoto.appendChild(img);*/
+});
+
+var adFormAvatar = adForm.querySelector('.ad-form-header__avatar');
+adFormAvatar.addEventListener('change', function () {
+  // var adFormPhoto = adForm.querySelector('.ad-form__photo');
+  var adFormPhotoFileType = adFormAvatar.files[0].type;
+  if (adFormPhotoFileType === 'image/png' || adFormPhotoFileType === 'image/jpeg') {
+    adFormImages.setCustomValidity('Файл выбран');
+  //  console.log('Файл выбран');
+  } else {
+    adFormImages.setCustomValidity('Выберите, пожалуйста, файл с расширеним JPG или PNG');
+  //  console.log('Выберите файл с расширением JPG или PNG');
+  }
+  /*  var img = new Image(70, 70);
+    img.src = adFormImages.value;
+    adFormPhoto.appendChild(img);*/
+});
