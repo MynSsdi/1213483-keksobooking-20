@@ -10,7 +10,7 @@
 
     mapPins.appendChild(createDOMRenterList(window.data.DATA_RENTER_LIST));
 
-    window.card.createRenderCard(arrayDataRenterList)
+    window.card.createRenderCard(arrayDataRenterList);
 
     window.card.arrayDataRenterList = arrayDataRenterList;
 

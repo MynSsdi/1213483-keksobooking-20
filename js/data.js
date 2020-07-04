@@ -46,8 +46,6 @@
     ADS_LOCATION_Y
   ];
 
-  var arrayDataRenterList = [];
-
   var getRandomElement = function (arrayElement) {
     var indexElement = Math.floor(Math.random() * Math.floor(arrayElement.length));
     return arrayElement[indexElement];
