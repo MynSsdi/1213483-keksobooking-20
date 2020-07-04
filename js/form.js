@@ -1,5 +1,7 @@
 'use strict';
 
+(function () {
+
 var adForm = document.querySelector('.ad-form');
 var validateNumberRoomsGuestsForm = function () {
   var rooms = adForm.querySelector('.ad-form__rooms');
@@ -82,10 +84,10 @@ adFormTitle.addEventListener('invalid', function () {
 
 adFormTitle.addEventListener('input', function () {
   var valueLength = adFormTitle.value.length;
-  if (valueLength < window.util.MIN_TITLE_LENGTH) {
-    adFormTitle.setCustomValidity('Ещё ' + (window.util.MIN_TITLE_LENGTH - valueLength) + ' симв.');
-  } else if (valueLength > window.util.MAX_TITLE_LENGTH) {
-    adFormTitle.setCustomValidity('Удалите лишние ' + (valueLength - window.util.MAX_TITLE_LENGTH) + 'симв.');
+  if (valueLength < window.data.MIN_TITLE_LENGTH) {
+    adFormTitle.setCustomValidity('Ещё ' + (window.data.MIN_TITLE_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > window.data.MAX_TITLE_LENGTH) {
+    adFormTitle.setCustomValidity('Удалите лишние ' + (valueLength - window.data.MAX_TITLE_LENGTH) + 'симв.');
   } else {
     adFormTitle.setCustomValidity('');
   }
@@ -94,7 +96,7 @@ adFormTitle.addEventListener('input', function () {
 
 var adFormType = adForm.querySelector('.ad-form__type');
 var adFormPrice = adForm.querySelector('.ad-form__price');
-var adFormPricePlaceholder = window.util.MIN_PRICE_FLAT;
+var adFormPricePlaceholder = window.data.MIN_PRICE_FLAT;
 var adFormTypeChild = adFormType.querySelector('[value=flat]');
 adFormPrice.value = adFormPricePlaceholder;
 
@@ -102,22 +104,22 @@ adFormType.addEventListener('change', function () {
   var adFormTypeValue = adFormType.value;
   switch (adFormTypeValue) {
     case 'bungalo':
-      adFormPricePlaceholder = window.util.MIN_PRICE;
+      adFormPricePlaceholder = window.data.MIN_PRICE;
       adFormPrice.value = adFormPricePlaceholder;
       adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
       break;
     case 'flat':
-      adFormPricePlaceholder = window.util.MIN_PRICE_FLAT;
+      adFormPricePlaceholder = window.data.MIN_PRICE_FLAT;
       adFormPrice.value = adFormPricePlaceholder;
       adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
       break;
     case 'house':
-      adFormPricePlaceholder = window.util.MIN_PRICE_HOUSE;
+      adFormPricePlaceholder = window.data.MIN_PRICE_HOUSE;
       adFormPrice.value = adFormPricePlaceholder;
       adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
       break;
     case 'palace':
-      adFormPricePlaceholder = window.util.MIN_PRICE_PALACE;
+      adFormPricePlaceholder = window.data.MIN_PRICE_PALACE;
       adFormPrice.value = adFormPricePlaceholder;
       adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
       break;
@@ -128,7 +130,7 @@ adFormPrice.addEventListener('change', function () {
   var adFormPriceValue = parseInt(adFormPrice.value, 10);
   if (adFormPriceValue < adFormPricePlaceholder) {
     adFormPrice.setCustomValidity('Минимальная цена для типа жилья: ' + adFormTypeChild.textContent + ' составляет ' + adFormPricePlaceholder);
-  } else if (adFormPriceValue > window.util.MAX_PRICE) {
+  } else if (adFormPriceValue > window.data.MAX_PRICE) {
     adFormPrice.setCustomValidity('Максимальная цена жилья составляет 1 000 000');
   } else {
     adFormPrice.setCustomValidity('');
@@ -176,3 +178,5 @@ adFormAvatar.addEventListener('change', function () {
     img.src = adFormImages.value;
     adFormPhoto.appendChild(img);*/
 });
+
+})();
