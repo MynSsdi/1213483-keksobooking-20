@@ -3,6 +3,8 @@
 (function () {
 
   var adForm = document.querySelector('.ad-form');
+  var adFormAddress = adForm.querySelector('.ad-form__address');
+
   var validateNumberRoomsGuestsForm = function () {
     var rooms = adForm.querySelector('.ad-form__rooms');
     var capacity = adForm.querySelector('.ad-form__capacity');
@@ -93,34 +95,33 @@
     }
   });
 
-
   var adFormType = adForm.querySelector('.ad-form__type');
   var adFormPrice = adForm.querySelector('.ad-form__price');
   var adFormPricePlaceholder = window.data.MIN_PRICE_FLAT;
   var adFormTypeChild = adFormType.querySelector('[value=flat]');
-  adFormPrice.value = adFormPricePlaceholder;
+  adFormPrice.placeholder = adFormPricePlaceholder;
 
   adFormType.addEventListener('change', function () {
     var adFormTypeValue = adFormType.value;
     switch (adFormTypeValue) {
       case 'bungalo':
         adFormPricePlaceholder = window.data.MIN_PRICE;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
       case 'flat':
         adFormPricePlaceholder = window.data.MIN_PRICE_FLAT;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
       case 'house':
         adFormPricePlaceholder = window.data.MIN_PRICE_HOUSE;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
       case 'palace':
         adFormPricePlaceholder = window.data.MIN_PRICE_PALACE;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
     }
@@ -178,5 +179,21 @@
       img.src = adFormImages.value;
       adFormPhoto.appendChild(img);*/
   });
+
+  var setAdFormAddress = function () {
+    var mapMainPinAddress = document.querySelector('.map__pin--main');
+
+    var mapMainPinRect = mapMainPinAddress.getBoundingClientRect();
+    var mapMainPinTailHeight = parseInt(window.getComputedStyle(mapMainPinAddress, ':after').getPropertyValue('height'), 10);
+
+    var coordX = Math.round(mapMainPinRect.left + mapMainPinRect.width / 2 + window.scrollX);
+    var coordY = Math.round(mapMainPinRect.top + mapMainPinRect.height + mapMainPinTailHeight + window.scrollY);
+
+    adFormAddress.value = coordX + ', ' + coordY;
+  };
+
+  window.form = {
+    setAdFormAddress: setAdFormAddress
+  };
 
 })();
