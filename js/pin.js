@@ -127,5 +127,4 @@
     createMapPins: createMapPins
   };
 
-
 })();
