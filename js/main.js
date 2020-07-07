@@ -25,7 +25,7 @@
 
   var adForm = document.querySelector('.ad-form');
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
-  var addressAdForm = adForm.querySelector('.ad-form__address');
+  var adFormAddress = adForm.querySelector('.ad-form__address');
 
   var mapFiltersForm = document.querySelector('.map__filters');
   mapFiltersForm.classList.add('ad-form--disabled');
@@ -45,8 +45,7 @@
     var centerX = mapPinMapSvg.getAttribute('width') / 2;
     var centerY = mapPinMapSvg.getAttribute('height') / 2;
 
-
-    addressAdForm.value = centerX + ', ' + centerY;
+    adFormAddress.value = centerX + ', ' + centerY;
 
     var enabledElementForm = function (evt) {
       if (evt.button === 0 || evt.keyCode === 13) {

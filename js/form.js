@@ -181,8 +181,15 @@
   });
 
   var setAdFormAddress = function () {
-    var cardMapPin = document.querySelector('.map__card');
-    adFormAddress.value = cardMapPin.querySelector('.popup__text--address').textContent;
+    var mapMainPinAddress = document.querySelector('.map__pin--main');
+
+    var mapMainPinRect = mapMainPinAddress.getBoundingClientRect();
+    var mapMainPinTailHeight = parseInt(window.getComputedStyle(mapMainPinAddress, ':after').getPropertyValue('height'), 10);
+
+    var coordX = Math.round(mapMainPinRect.left + mapMainPinRect.width / 2 + window.scrollX);
+    var coordY = Math.round(mapMainPinRect.top + mapMainPinRect.height + mapMainPinTailHeight + window.scrollY);
+
+    adFormAddress.value = coordX + ', ' + coordY;
   };
 
   window.form = {

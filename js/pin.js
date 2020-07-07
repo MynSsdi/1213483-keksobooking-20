@@ -14,7 +14,6 @@
       }
       var indexMapPin = evt.currentTarget.getAttribute('data-pin-number');
       isCreateRenderCard = window.card.createRenderCard(arrayDataRenterList[indexMapPin]);
-      window.form.setAdFormAddress();
     }
   };
 
@@ -29,6 +28,7 @@
       childMapPin.addEventListener('keydown', openPopupCard);
     });
 
+    window.form.setAdFormAddress();
   };
 
   var createDOMRenterList = function (pDataRenterList) {
