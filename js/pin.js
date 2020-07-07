@@ -4,23 +4,25 @@
   var isCreateRenderCard = false;
   var arrayDataRenterList = [];
   var mapPins = document.querySelector('.map__pins');
-  var adForm = document.querySelector('.ad-form');
-  var addressAdForm = adForm.querySelector('.ad-form__address');
 
   var openPopupCard = function (evt) {
     if (evt.button === 0 || evt.keyCode === 13 || evt.keyCode === 27) {
       var cardMapPin = document.querySelector('.map__card');
       if (isCreateRenderCard && cardMapPin !== null) {
+
         cardMapPin.remove();
       }
       var indexMapPin = evt.currentTarget.getAttribute('data-pin-number');
       isCreateRenderCard = window.card.createRenderCard(arrayDataRenterList[indexMapPin]);
+      if (isCreateRenderCard || cardMapPin !== null) {
+        window.form.setAdFormAddress();
+      }
     }
   };
 
   var createMapPins = function () {
     mapPins.appendChild(createDOMRenterList(window.data.DATA_RENTER_LIST));
-    setAddressMapPin();
+
 
     var childMapPins = mapPins.querySelectorAll('.map__pin--child');
 
@@ -58,16 +60,15 @@
     return createDOMRenterItemClone;
   };
 
-  var setAddressMapPin = function () {
+  /*  var setAddressMapPin = function () {
     var left = parseInt(arrayDataRenterList[0].location.x, 10);
     var top = parseInt(arrayDataRenterList[0].location.y, 10);
-    addressAdForm.value = Math.round(left + left / 2) + ', ' + Math.round(top + 70);
-  };
+    adFormAddress.value = Math.round(left + left / 2) + ', ' + Math.round(top + 70);
+  }; */
 
   window.pin = {
     createDOMRenterItem: createDOMRenterItem,
-    createMapPins: createMapPins,
-    isCreateRenderCard: isCreateRenderCard
+    createMapPins: createMapPins
   };
 
 })();

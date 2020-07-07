@@ -3,6 +3,8 @@
 (function () {
 
   var adForm = document.querySelector('.ad-form');
+  var adFormAddress = adForm.querySelector('.ad-form__address');
+
   var validateNumberRoomsGuestsForm = function () {
     var rooms = adForm.querySelector('.ad-form__rooms');
     var capacity = adForm.querySelector('.ad-form__capacity');
@@ -178,5 +180,14 @@
       img.src = adFormImages.value;
       adFormPhoto.appendChild(img);*/
   });
+
+  var setAdFormAddress = function () {
+    var cardMapPin = document.querySelector('.map__card');
+    adFormAddress.value = cardMapPin.querySelector('.popup__text--address').textContent;
+  };
+
+  window.form = {
+    setAdFormAddress: setAdFormAddress
+  };
 
 })();
