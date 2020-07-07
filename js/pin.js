@@ -14,9 +14,7 @@
       }
       var indexMapPin = evt.currentTarget.getAttribute('data-pin-number');
       isCreateRenderCard = window.card.createRenderCard(arrayDataRenterList[indexMapPin]);
-      if (isCreateRenderCard || cardMapPin !== null) {
-        window.form.setAdFormAddress();
-      }
+      window.form.setAdFormAddress();
     }
   };
 

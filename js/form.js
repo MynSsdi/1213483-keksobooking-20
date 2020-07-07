@@ -95,34 +95,33 @@
     }
   });
 
-
   var adFormType = adForm.querySelector('.ad-form__type');
   var adFormPrice = adForm.querySelector('.ad-form__price');
   var adFormPricePlaceholder = window.data.MIN_PRICE_FLAT;
   var adFormTypeChild = adFormType.querySelector('[value=flat]');
-  adFormPrice.value = adFormPricePlaceholder;
+  adFormPrice.placeholder = adFormPricePlaceholder;
 
   adFormType.addEventListener('change', function () {
     var adFormTypeValue = adFormType.value;
     switch (adFormTypeValue) {
       case 'bungalo':
         adFormPricePlaceholder = window.data.MIN_PRICE;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
       case 'flat':
         adFormPricePlaceholder = window.data.MIN_PRICE_FLAT;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
       case 'house':
         adFormPricePlaceholder = window.data.MIN_PRICE_HOUSE;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
       case 'palace':
         adFormPricePlaceholder = window.data.MIN_PRICE_PALACE;
-        adFormPrice.value = adFormPricePlaceholder;
+        adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
     }
