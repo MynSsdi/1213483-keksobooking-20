@@ -94,6 +94,8 @@
         mapMainPin.style.left = (mapMainPin.offsetLeft - shift.x) + 'px';
         mapMainPin.style.top = (mapMainPin.offsetTop - shift.y) + 'px';
 
+        window.form.setAdFormAddress();
+
       };
 
       var onMouseUp = function (upEvt) {
