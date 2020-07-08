@@ -2,6 +2,9 @@
 
 (function () {
 
+  var coordX;
+  var coordY;
+
   var adForm = document.querySelector('.ad-form');
   var adFormAddress = adForm.querySelector('.ad-form__address');
 
@@ -186,14 +189,16 @@
     var mapMainPinRect = mapMainPinAddress.getBoundingClientRect();
     var mapMainPinTailHeight = parseInt(window.getComputedStyle(mapMainPinAddress, ':after').getPropertyValue('height'), 10);
 
-    var coordX = Math.round(mapMainPinRect.left + mapMainPinRect.width / 2 + window.scrollX);
-    var coordY = Math.round(mapMainPinRect.top + mapMainPinRect.height + mapMainPinTailHeight + window.scrollY);
+    window.form.coordX = Math.round(mapMainPinRect.left + mapMainPinRect.width / 2 + window.scrollX);
+    window.form.coordY = Math.round(mapMainPinRect.top + mapMainPinRect.height + mapMainPinTailHeight + window.scrollY);
 
-    adFormAddress.value = coordX + ', ' + coordY;
+    adFormAddress.value = window.form.coordX + ', ' + window.form.coordY;
   };
 
   window.form = {
-    setAdFormAddress: setAdFormAddress
+    setAdFormAddress: setAdFormAddress,
+    coordX: coordX,
+    coordY: coordY
   };
 
 })();
