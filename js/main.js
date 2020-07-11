@@ -6,20 +6,22 @@
 
   var isActivation = false;
 
-  var mapPins = document.querySelector('.map__pins');
+  // var mapPins = document.querySelector('.map__pins');
 
   var activationPage = function () {
-    if (isActivation) {
+  /*  if (isActivation) {
       var childMapPins = mapPins.querySelector('.map__pin--child');
       while (childMapPins !== null) {
         mapPins.removeChild(childMapPins);
         childMapPins = mapPins.querySelector('.map__pin--child');
       }
+    } */
+
+    if (!isActivation) {
+      window.pin.createMapPins();
     }
 
     isActivation = true;
-
-    window.pin.createMapPins();
 
   };
 

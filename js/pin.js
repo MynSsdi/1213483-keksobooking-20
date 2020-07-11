@@ -69,9 +69,12 @@
   var mousedown = function (evt) {
     evt.preventDefault();
 
-    dragged = true;
-
     if (evt.button === 0) {
+
+      var coordsMainPinStyle = {
+        x: mapMainPin.style.left,
+        y: mapMainPin.style.top
+      };
 
       var startCoords = {
         x: evt.clientX,
@@ -79,6 +82,9 @@
       };
 
       var onMouseMove = function (moveEvt) {
+
+        dragged = true;
+
         moveEvt.preventDefault();
 
         var shift = {
@@ -91,9 +97,27 @@
           y: moveEvt.clientY
         };
 
+        coordsMainPinStyle.x = mapMainPin.style.left;
+        coordsMainPinStyle.y = mapMainPin.style.top;
+
         mapMainPin.style.left = (mapMainPin.offsetLeft - shift.x) + 'px';
         mapMainPin.style.top = (mapMainPin.offsetTop - shift.y) + 'px';
 
+        window.form.setAdFormAddress();
+
+        var mapPinsRect = mapPins.getBoundingClientRect();
+
+        var horizontalLimitLeft = mapPinsRect.left;
+        var horizontalLimitRight = mapPinsRect.right + window.scrollX;
+
+        var verticalLimitTop = window.data.TOP_VERTICAL_LIMIT;
+        var verticalLimitBottom = window.data.BOTTOM_VERTICAL_LIMIT;
+
+        if ((window.form.coordY <= verticalLimitTop || window.form.coordY >= verticalLimitBottom)
+         || (window.form.coordX <= horizontalLimitLeft || window.form.coordX >= horizontalLimitRight)) {
+          mapMainPin.style.left = coordsMainPinStyle.x;
+          mapMainPin.style.top = coordsMainPinStyle.y;
+        }
       };
 
       var onMouseUp = function (upEvt) {
