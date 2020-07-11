@@ -17,8 +17,8 @@
     }
   };
 
-  var createMapPins = function () {
-    mapPins.appendChild(createDOMRenterList(window.data.DATA_RENTER_LIST));
+  var createMapPins = function (arrayPinsServer) {
+    mapPins.appendChild(createDOMRenterList(arrayPinsServer));
 
 
     var childMapPins = mapPins.querySelectorAll('.map__pin--child');
@@ -145,6 +145,8 @@
   document.removeEventListener('click', function (evt) {
     evt.preventDefault();
   });
+
+  window.backend.load(createMapPins);
 
   window.pin = {
     createDOMRenterItem: createDOMRenterItem,
