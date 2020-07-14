@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var COORD_LEFT_PIN_MAIN;
+  var COORD_TOP_PIN_MAIN;
 
   var MIN_TITLE_LENGTH = 30;
   var MAX_TITLE_LENGTH = 100;
@@ -48,6 +50,12 @@
     ADS_LOCATION_X,
     ADS_LOCATION_Y
   ];
+
+  var mapPinMain = document.querySelector('.map__pin--main');
+
+  COORD_LEFT_PIN_MAIN = mapPinMain.style.left;
+  COORD_TOP_PIN_MAIN = mapPinMain.style.top;
+
 
   var getRandomElement = function (arrayElement) {
     var indexElement = Math.floor(Math.random() * Math.floor(arrayElement.length));
@@ -116,6 +124,8 @@
     DATA_RENTER_LIST: DATA_RENTER_LIST,
     TOP_VERTICAL_LIMIT: TOP_VERTICAL_LIMIT,
     BOTTOM_VERTICAL_LIMIT: BOTTOM_VERTICAL_LIMIT,
+    COORD_LEFT_PIN_MAIN: COORD_LEFT_PIN_MAIN,
+    COORD_TOP_PIN_MAIN: COORD_TOP_PIN_MAIN,
     getArrayDataRenterList: getArrayDataRenterList
   };
 
