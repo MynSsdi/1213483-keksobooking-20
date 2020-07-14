@@ -31,6 +31,14 @@
     window.form.setAdFormAddress();
   };
 
+  var deleteMapPins = function () {
+    var mapPinsChild = document.querySelectorAll('.map__pin--child');
+
+    mapPinsChild.forEach(function (mapPinChildren) {
+      mapPinChildren.remove();
+    });
+  };
+
   var createDOMRenterList = function (pDataRenterList) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < window.data.COUNT_RENTERS; i++) {
@@ -130,6 +138,9 @@
             mapMainPin.removeEventListener('click', onClickPreventDefault);
           };
           mapMainPin.removeEventListener('click', onClickPreventDefault);
+          dragged = false;
+          window.pin.deleteMapPins();
+          window.backend.load(createMapPins);
         }
       };
 
@@ -146,11 +157,10 @@
     evt.preventDefault();
   });
 
-  window.backend.load(createMapPins);
-
   window.pin = {
     createDOMRenterItem: createDOMRenterItem,
-    createMapPins: createMapPins
+    createMapPins: createMapPins,
+    deleteMapPins: deleteMapPins
   };
 
 })();

@@ -1,19 +1,26 @@
 'use strict';
 
 (function () {
+  var main;
 
   var coordX;
   var coordY;
 
   var adForm = document.querySelector('.ad-form');
+  //  var mapFiltersForm = document.querySelector('.map__filters');
+  //  var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
+  //  var selectMapFiltersForm = mapFiltersForm.querySelectorAll('select');
   var adFormAddress = adForm.querySelector('.ad-form__address');
+  var rooms = adForm.querySelector('.ad-form__rooms');
+  var capacity = adForm.querySelector('.ad-form__capacity');
 
   var validateNumberRoomsGuestsForm = function () {
-    var rooms = adForm.querySelector('.ad-form__rooms');
-    var capacity = adForm.querySelector('.ad-form__capacity');
 
-    rooms.addEventListener('change', function () {
-      var numberRooms = rooms.value;
+    var numberRooms;
+
+    var changeNumberRooms = function () {
+
+      numberRooms = rooms.value;
 
       numberRooms = (numberRooms === '100') ? '0' : rooms.value;
 
@@ -32,10 +39,10 @@
           capacity[j].setAttribute('disabled', '');
         }
       }
-    });
+    };
 
-    capacity.addEventListener('change', function () {
-      var numberRooms = capacity.value;
+    var changeNumberCapacity = function () {
+      numberRooms = capacity.value;
 
       numberRooms = (numberRooms === '0') ? '100' : capacity.value;
 
@@ -54,7 +61,11 @@
           rooms[j].setAttribute('disabled', '');
         }
       }
-    });
+    };
+
+    //  changeNumberRooms();
+    rooms.addEventListener('change', changeNumberRooms);
+    capacity.addEventListener('change', changeNumberCapacity);
   };
 
   validateNumberRoomsGuestsForm();
@@ -103,6 +114,7 @@
   var adFormPricePlaceholder = window.data.MIN_PRICE_FLAT;
   var adFormTypeChild = adFormType.querySelector('[value=flat]');
   adFormPrice.placeholder = adFormPricePlaceholder;
+  var adFormPriceValue;
 
   adFormType.addEventListener('change', function () {
     var adFormTypeValue = adFormType.value;
@@ -130,16 +142,23 @@
     }
   });
 
-  adFormPrice.addEventListener('change', function () {
-    var adFormPriceValue = parseInt(adFormPrice.value, 10);
+  var validatePriceOfType = function () {
+    adFormPriceValue = parseInt(adFormPrice.value, 10);
+
     if (adFormPriceValue < adFormPricePlaceholder) {
       adFormPrice.setCustomValidity('Минимальная цена для типа жилья: ' + adFormTypeChild.textContent + ' составляет ' + adFormPricePlaceholder);
     } else if (adFormPriceValue > window.data.MAX_PRICE) {
       adFormPrice.setCustomValidity('Максимальная цена жилья составляет 1 000 000');
+    } else if (isNaN(adFormPriceValue)) {
+      adFormPrice.setCustomValidity('Обязательное поле');
     } else {
       adFormPrice.setCustomValidity('');
     }
-  });
+  };
+
+  adFormPrice.addEventListener('keydown', validatePriceOfType);
+
+  adFormPrice.addEventListener('invalid', validatePriceOfType);
 
   var timeIn = adForm.querySelector('.ad-form__timeIn');
   var timeOut = adForm.querySelector('.ad-form__timeOut');
@@ -183,6 +202,15 @@
       adFormPhoto.appendChild(img);*/
   });
 
+  var onAddressClick = function (evt) {
+    if (evt.keyCode === 13 || evt.button === 0) {
+      adFormAddress.setCustomValidity('Значение этого поля соответствует расположению маркера. Ручной ввод координат запрещён');
+    }
+  };
+
+  adFormAddress.addEventListener('mousedown', onAddressClick);
+  adFormAddress.addEventListener('keydown', onAddressClick);
+
   var setAdFormAddress = function () {
     var mapMainPinAddress = document.querySelector('.map__pin--main');
 
@@ -194,6 +222,67 @@
 
     adFormAddress.value = window.form.coordX + ', ' + window.form.coordY;
   };
+
+  var onSuccessSendDataServer = function () {
+    adForm.reset();
+
+    window.main.disableElementForm();
+
+    var messageSuccess = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+    main.appendChild(messageSuccess);
+    var closeMessageSuccess = function (evt) {
+      if (evt.keyCode === 27 || evt.button === 0) {
+        messageSuccess.remove();
+        document.removeEventListener('keydown', closeMessageSuccess);
+        document.removeEventListener('mousedown', closeMessageSuccess);
+      }
+    };
+    document.addEventListener('keydown', closeMessageSuccess);
+    document.addEventListener('mousedown', closeMessageSuccess);
+  };
+
+  var onErrorSendDataServer = function (evt) {
+    var messageError = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    var buttonCloseMessageError = messageError.querySelector('.error__button');
+
+    main.appendChild(messageError);
+
+    var closeMessageError = function () {
+      if (evt.keyCode === 27 || evt.button === 0 || (evt.srcElement === buttonCloseMessageError && evt.keyCode === 13)) {
+        messageError.remove();
+
+        document.removeEventListener('keydown', closeMessageError);
+        document.removeEventListener('mousedown', closeMessageError);
+
+        buttonCloseMessageError.removeEventListener('keydown', closeMessageError);
+        buttonCloseMessageError.removeEventListener('mousedown', closeMessageError);
+      }
+    };
+
+    document.addEventListener('keydown', closeMessageError);
+    document.addEventListener('mousedown', closeMessageError);
+
+    buttonCloseMessageError.addEventListener('keydown', closeMessageError);
+    buttonCloseMessageError.addEventListener('mousedown', closeMessageError);
+
+  };
+
+  var onSubmitFormServer = function (evt) {
+    main = document.querySelector('main');
+    window.backend.save(new FormData(adForm), onSuccessSendDataServer, onErrorSendDataServer);
+    evt.preventDefault();
+  };
+
+  adForm.addEventListener('submit', onSubmitFormServer);
+
+  var resetForm = function () {
+    adForm.reset();
+
+    window.main.disableElementForm();
+  };
+
+  var buttonReset = document.querySelector('.ad-form__reset');
+  buttonReset.addEventListener('click', resetForm);
 
   window.form = {
     setAdFormAddress: setAdFormAddress,

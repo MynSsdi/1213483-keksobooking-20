@@ -8,7 +8,7 @@
     OK: 200
   };
 
-  var TIMEOUT_IN_MS = 10000;
+  var TIMEOUT_IN_MS = 100000;
 
   var getDataServer = function (onGetDataSucess, onGetDataError) {
 
@@ -39,8 +39,29 @@
 
   };
 
+  var sendDataServer = function (data, onSendDataServer, onSendErrorDataServer) {
+
+    var urlSendServer = 'https://javascript.pages.academy/keksobooking';
+
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === StatusCode.OK) {
+        onSendDataServer(xhr.response);
+      } else {
+        onSendErrorDataServer('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+    });
+
+    xhr.open('POST', urlSendServer);
+    xhr.send(data);
+
+  };
+
   window.backend = {
-    load: getDataServer
+    load: getDataServer,
+    save: sendDataServer
   };
 
 })();
