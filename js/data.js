@@ -18,6 +18,7 @@
 
 
   var COUNT_RENTERS = 8;
+  var MAX_COUNT_MAP_PIN = 5;
 
   var ADS_AUTHOR_AVATARS = ['img/avatars/user01.png', 'img/avatars/user02.png', 'img/avatars/user03.png', 'img/avatars/user04.png', 'img/avatars/user05.png', 'img/avatars/user06.png', 'img/avatars/user07.png', 'img/avatars/user08.png'];
   var ADS_OFFER_TITLES = ['Заголовк 1', 'Заголовк 2', 'Заголовк 3', 'Заголовк 4', 'Заголовк 5', 'Заголовк 6', 'Заголовк 7', 'Заголовк 8'];
@@ -126,6 +127,7 @@
     BOTTOM_VERTICAL_LIMIT: BOTTOM_VERTICAL_LIMIT,
     COORD_LEFT_PIN_MAIN: COORD_LEFT_PIN_MAIN,
     COORD_TOP_PIN_MAIN: COORD_TOP_PIN_MAIN,
+    MAX_COUNT_MAP_PIN: MAX_COUNT_MAP_PIN,
     getArrayDataRenterList: getArrayDataRenterList
   };
 

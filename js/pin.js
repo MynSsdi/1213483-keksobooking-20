@@ -1,25 +1,55 @@
 'use strict';
 
 (function () {
+  var pins = [];
+  var sameHousingType;
+  var housingType;
   var isCreateRenderCard = false;
   var arrayDataRenterList = [];
   var mapPins = document.querySelector('.map__pins');
+  var mapFiltersForm = document.querySelector('.map__filters');
+  var housingTypeForm = mapFiltersForm.querySelector('#housing-type');
+
+  var updateCreateMapPins = function () {
+    deleteMapPins();
+    renderMapPins(sameHousingType);
+  };
+
+  var changeHousingType = function () {
+    var cardMapPin = document.querySelector('.map__card');
+
+    if (cardMapPin !== null) {
+      cardMapPin.remove();
+    }
+
+    housingType = housingTypeForm.value;
+
+
+    if (housingType !== 'any') {
+      sameHousingType = pins.filter(function (it) {
+        return it.offer.type === housingType;
+      });
+    } else {
+      sameHousingType = pins;
+    }
+
+    updateCreateMapPins(sameHousingType);
+  };
 
   var openPopupCard = function (evt) {
     if (evt.button === 0 || evt.keyCode === 13 || evt.keyCode === 27) {
       var cardMapPin = document.querySelector('.map__card');
       if (isCreateRenderCard && cardMapPin !== null) {
-
         cardMapPin.remove();
       }
       var indexMapPin = evt.currentTarget.getAttribute('data-pin-number');
       isCreateRenderCard = window.card.createRenderCard(arrayDataRenterList[indexMapPin]);
+
     }
   };
 
-  var createMapPins = function (arrayPinsServer) {
+  var renderMapPins = function (arrayPinsServer) {
     mapPins.appendChild(createDOMRenterList(arrayPinsServer));
-
 
     var childMapPins = mapPins.querySelectorAll('.map__pin--child');
 
@@ -29,6 +59,18 @@
     });
 
     window.form.setAdFormAddress();
+  };
+
+  var createMapPins = function (arrayPinsServer) {
+    pins = arrayPinsServer.slice();
+
+    pins.splice(window.data.MAX_COUNT_MAP_PIN, pins.length - 1);
+
+    changeHousingType();
+
+    housingTypeForm.addEventListener('change', changeHousingType);
+
+    // renderMapPins(arrayPinsServer);
   };
 
   var deleteMapPins = function () {
@@ -41,20 +83,22 @@
 
   var createDOMRenterList = function (pDataRenterList) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.COUNT_RENTERS; i++) {
-      arrayDataRenterList[i] = window.data.getArrayDataRenterList(pDataRenterList);
-      fragment.appendChild(createDOMRenterItem(arrayDataRenterList[i], i));
+    var arrayLength = pDataRenterList.length > 5 ? 5 : pDataRenterList.length;
+    for (var i = 0; i < arrayLength; i++) {
+      arrayDataRenterList[i] = pDataRenterList[i];
+      fragment.appendChild(createDOMRenterItem(pDataRenterList[i], i));
     }
     return fragment;
   };
 
   var createDOMRenterItem = function (arrayRenters, i) {
+
     var adsPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
     var createDOMRenterItemClone = adsPinTemplate.cloneNode(true);
 
-    createDOMRenterItemClone.style.left = arrayRenters.location.x;
-    createDOMRenterItemClone.style.top = arrayRenters.location.y;
+    createDOMRenterItemClone.style.left = arrayRenters.location.x + 'px';
+    createDOMRenterItemClone.style.top = arrayRenters.location.y + 'px';
 
     createDOMRenterItemClone.setAttribute('data-pin-number', i);
 
@@ -62,6 +106,7 @@
 
     createDOMRenterItemCloneImage.src = arrayRenters.author.avatar;
     createDOMRenterItemCloneImage.alt = arrayRenters.offer.title;
+    //  createDOMRenterItemCloneImage.alt = arrayRenters.offer.title;
 
     return createDOMRenterItemClone;
   };
