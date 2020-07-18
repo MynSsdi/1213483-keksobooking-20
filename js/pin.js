@@ -3,16 +3,23 @@
 (function () {
   var pins = [];
   var sameHousingType;
+  var sameHousingPrice;
+  var sameHousingRooms;
+  var housingRooms;
   var housingType;
+  var housingPrice;
   var isCreateRenderCard = false;
   var arrayDataRenterList = [];
   var mapPins = document.querySelector('.map__pins');
   var mapFiltersForm = document.querySelector('.map__filters');
   var housingTypeForm = mapFiltersForm.querySelector('#housing-type');
+  var housingPriceForm = mapFiltersForm.querySelector('#housing-price');
+  var housingRoomsForm = mapFiltersForm.querySelector('#housing-rooms');
+  var housingGuestsForm = mapFiltersForm.querySelector('#housing-guests');
 
-  var updateCreateMapPins = function () {
+  var updateCreateMapPins = function (sames) {
     deleteMapPins();
-    renderMapPins(sameHousingType);
+    renderMapPins(sames);
   };
 
   var changeHousingType = function () {
@@ -23,6 +30,14 @@
     }
 
     housingType = housingTypeForm.value;
+    housingPrice = housingPriceForm.value;
+    housingRooms = housingRoomsForm.value;
+
+  //  var housingPriceOption = housingPriceForm.querySelector('[value=' + housingPrice + ']');
+
+  //  console.log(parseInt(housingPriceOption.textContent));
+
+
 
 
     if (housingType !== 'any') {
@@ -33,7 +48,39 @@
       sameHousingType = pins;
     }
 
-    updateCreateMapPins(sameHousingType);
+
+
+      if (housingRooms !== 'any') {
+        sameHousingRooms = sameHousingType.filter(function (it) {
+          return parseInt(it.offer.rooms) === parseInt(housingRooms);
+        });
+      } else {
+        sameHousingRooms = sameHousingType;
+      }
+
+      var sameHousingPrice = sameHousingType.filter(function (it) {
+        var price = parseInt(it.offer.price);
+        switch (housingPrice) {
+          case 'middle':
+            if (price >= 10000 && price <= 50000) {
+              return price;
+            }
+            break;
+          case 'low':
+          if (price <= 10000) {
+            return price;
+          }
+          break;
+          case 'high':
+          if (price >= 50000) {
+            return price;
+          }
+          break;
+          default: return price;
+        }
+      });
+
+    updateCreateMapPins(sameHousingPrice);
   };
 
   var openPopupCard = function (evt) {
@@ -69,6 +116,8 @@
     changeHousingType();
 
     housingTypeForm.addEventListener('change', changeHousingType);
+    housingPriceForm.addEventListener('change', changeHousingType);
+    housingRoomsForm.addEventListener('change', changeHousingType);
 
     // renderMapPins(arrayPinsServer);
   };
