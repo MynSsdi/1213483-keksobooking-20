@@ -1,3 +1,5 @@
+// опять же, структура файла в первую очередь. И выкинь объявления типа   var sameHousingType;
+//   var sameHousingPrice; - они ничего не дают
 'use strict';
 
 (function () {
@@ -48,6 +50,7 @@
 
     var housingType = housingTypeForm.value;
 
+//у тебя есть специальная константа, используй ее
     if (housingType !== 'any') {
       sameHousingType = pins.filter(function (it) {
         return it.offer.type === housingType;
@@ -63,6 +66,7 @@
 
     var housingRooms = housingRoomsForm.value;
 
+//и здесь
     if (housingRooms !== 'any') {
       sameHousingRooms = pins.filter(function (it) {
         return parseInt(it.offer.rooms) === parseInt(housingRooms);
@@ -78,6 +82,7 @@
 
     var housingPrice = housingPriceForm.value;
 
+//цены должны быть упакованы в константы
     var sameHousingPrice = pins.filter(function (it) {
       var price = parseInt(it.offer.price);
       switch (housingPrice) {

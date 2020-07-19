@@ -1,3 +1,8 @@
+//Начни с приведения файла к единой структуре
+// сначала все константы
+// потом все переменные
+// потом все функции описываются
+// уже потом идут вызовы
 'use strict';
 
 (function () {
@@ -23,6 +28,15 @@
       numberRooms = rooms.value;
 
       numberRooms = (numberRooms === '100') ? '0' : rooms.value;
+
+      //здесь переписать через forEach - пример в модуле card
+      // if-else можно заменить на тернарный оператор:
+      // capacity.forEach(function(item, i) {
+      //   item.value === numberRooms ? item.setAttribute('selected', '') : item.removeAttribute('selected', '')
+      // })
+      //также поступи со всеми штуками в этой функции - их два для комнат и два для гостей
+      //вторым этапом вынеси все эти мелкие кусочки в отдельную функцию
+      //не забудь, что 100 - это константа!
 
       for (var i = 0; i < capacity.length; i++) {
         if (capacity[i].value === numberRooms) {
@@ -202,6 +216,8 @@
       adFormPhoto.appendChild(img);*/
   });
 
+
+//просто поставь адресу readOnly, не надо его дополнительно валидировать. Твоя задача его закрыть от редактирования
   var onAddressClick = function (evt) {
     if (evt.keyCode === 13 || evt.button === 0) {
       adFormAddress.setCustomValidity('Значение этого поля соответствует расположению маркера. Ручной ввод координат запрещён');
@@ -223,6 +239,7 @@
     adFormAddress.value = window.form.coordX + ', ' + window.form.coordY;
   };
 
+//27 - константа
   var onSuccessSendDataServer = function () {
     adForm.reset();
 
