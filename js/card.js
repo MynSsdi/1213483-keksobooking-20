@@ -2,85 +2,85 @@
 
 (function () {
 
-  var Title = {
-    PALACE: 'Дворец',
-    FLAT: 'Квартира',
-    HOUSE: 'Дом',
-    BUNGALO: 'Бунгало'
+  var isCreateRenderCard = true;
+
+  var getArrayDataRenterList = function () {
+    return window.main.setArrayDataRenterList();
   };
-  var advertTemplate = document.querySelector('template').content.querySelector('.map__card');
-  var currentPopup = null;
-  var popupContainer = null;
 
-  function getStringByType(type) {
-    return Title[type.toUpperCase()];
-  }
+  var mapPins = document.querySelector('.map__pins');
+  var createRenderCard = function (arrayDataRenterList) {
 
-  function createDOMPhotos(domPhotos, photos) {
-    var photo = domPhotos.querySelector('.popup__photo');
-    photo.src = photos[0];
-    domPhotos.appendChild(photo);
-    for (var i = 1; i < photos.length; i++) {
-      var newPhoto = photo.cloneNode(true);
-      newPhoto.src = photos[i];
-      domPhotos.appendChild(newPhoto);
-    }
-  }
+    var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+    var cardTemplateContent = cardTemplate.cloneNode(true);
+    cardTemplateContent.querySelector('.popup__title').textContent = arrayDataRenterList.offer.title;
+    cardTemplateContent.querySelector('.popup__text--address').textContent = arrayDataRenterList.offer.address;
+    cardTemplateContent.querySelector('.popup__text--price').textContent = arrayDataRenterList.offer.price + 'P/ночь';
+    cardTemplateContent.querySelector('.popup__type').textContent = arrayDataRenterList.offer.type;
+    cardTemplateContent.querySelector('.popup__text--capacity').textContent = arrayDataRenterList.offer.rooms + ' комнаты(а) для ' + arrayDataRenterList.offer.guests + ' гостей(я)';
+    cardTemplateContent.querySelector('.popup__text--time').textContent = 'Заезд после ' + arrayDataRenterList.offer.checkin + ' ,выезд до ' + arrayDataRenterList.offer.checkout;
+    cardTemplateContent.querySelector('.popup__description').textContent = arrayDataRenterList.offer.description;
+    cardTemplateContent.querySelector('.popup__avatar').src = arrayDataRenterList.author.avatar;
 
-  function clearChildren(parent) {
-    parent.innerHTML = '';
-  }
+    var renderFeatures = function () {
+      var features = [];
+      features = ['wifi', 'washer', 'dishwasher'];
+      var popupFeatures = cardTemplateContent.querySelector('.popup__features');
+      var fragment = document.createDocumentFragment();
+      for (var l = 0; l < features.length; l++) {
+        for (var k = 0; k < popupFeatures.children.length; k++) {
+          var popupFeaturesClass = popupFeatures.children[k].classList.value;
+          var popupFeaturesSlice = popupFeaturesClass.slice(31);
+          if (popupFeaturesSlice === features[l]) {
+            var popupFeature = popupFeatures.children[k];
+            fragment.appendChild(popupFeature);
+          }
+        }
+      }
+      popupFeature = popupFeatures.querySelectorAll('.popup__feature');
+      for (var m = 0; m < popupFeature.length; m++) {
+        popupFeature[m].remove(popupFeature[m]);
+      }
+      popupFeatures.append(fragment);
+    };
 
-  function createDOMFeatures(domUl, features) {
-    clearChildren(domUl);
-    for (var i = 0; i < features.length; i++) {
-      var li = document.createElement('li');
-      li.classList.add('popup__feature');
-      var classString = 'popup__feature--' + features[i];
-      li.classList.add(classString);
-      domUl.appendChild(li);
-    }
-  }
+    renderFeatures();
 
-  function createDOMAdvert(advertElement) {
-    var domAdvert = advertTemplate.cloneNode(true);
-    domAdvert.querySelector('.popup__title').textContent = advertElement.offer.title;
-    domAdvert.querySelector('.popup__text--address').textContent = advertElement.offer.address;
-    domAdvert.querySelector('.popup__text--price').textContent = advertElement.offer.price + '₽/ночь';
-    domAdvert.querySelector('.popup__type').textContent = getStringByType(advertElement.offer.type);
-    domAdvert.querySelector('.popup__text--capacity').textContent = advertElement.offer.rooms + ' комнаты для ' + advertElement.offer.guests + ' гостей';
-    domAdvert.querySelector('.popup__text--time').textContent = 'Заезд после ' + advertElement.offer.checkin + ', выезд до ' + advertElement.offer.checkout;
-    domAdvert.querySelector('.popup__description').textContent = advertElement.offer.description;
-    domAdvert.querySelector('.popup__avatar').src = advertElement.author.avatar;
-    createDOMPhotos(domAdvert.querySelector('.popup__photos'), advertElement.offer.photos);
-    createDOMFeatures(domAdvert.querySelector('.popup__features'), advertElement.offer.features);
-    return domAdvert;
-  }
+    var renderPhotos = function (pArrayDataRenterList) {
+      var popupPhotos = cardTemplateContent.querySelector('.popup__photos');
+      var popupPhoto = popupPhotos.querySelector('.popup__photo');
+      for (var j = 0; j < pArrayDataRenterList.offer.photos.length; j++) {
+        popupPhoto.src = pArrayDataRenterList.offer.photos[j];
+        popupPhotos.append(popupPhoto);
+        popupPhoto = cardTemplateContent.querySelector('.popup__photo').cloneNode(true);
+      }
+    };
 
-  function showPopup(advert) {
-    currentPopup = createDOMAdvert(advert);
-    popupContainer.appendChild(currentPopup);
-  }
+    renderPhotos(arrayDataRenterList);
 
-  function closePopup() {
-    if (currentPopup) {
-      currentPopup.remove();
-      currentPopup = null;
-    }
-  }
+    mapPins.after(cardTemplateContent);
 
-  function setListenerToCloseBtn(callback) {
-    callback(currentPopup);
-  }
+    var cardMapPin = document.querySelector('.map__card');
+    var popupClose = cardMapPin.querySelector('.popup__close');
+    cardMapPin.focus();
 
-  function setContainer(container) {
-    popupContainer = container;
-  }
+    var closePopupCard = function (evt) {
+      evt.preventDefault();
+
+      if (evt.button === 0 || evt.keyCode === 27) {
+        cardMapPin.remove();
+        document.removeEventListener('keydown', closePopupCard);
+      }
+    };
+
+    popupClose.addEventListener('mousedown', closePopupCard);
+    document.addEventListener('keydown', closePopupCard);
+    return isCreateRenderCard;
+  };
 
   window.card = {
-    show: showPopup,
-    close: closePopup,
-    setListener: setListenerToCloseBtn,
-    setContainer: setContainer
+    createRenderCard: createRenderCard,
+    getArrayDataRenterList: getArrayDataRenterList
   };
+
 })();

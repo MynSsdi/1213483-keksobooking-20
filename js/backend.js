@@ -1,45 +1,67 @@
 'use strict';
+
 (function () {
 
-  var GOOD_STATUS = 200;
+  var urlServer = 'https://javascript.pages.academy/keksobooking/data';
 
-  function createXhrRequest() {
-    var newXhr = new XMLHttpRequest();
-    newXhr.responseType = 'json';
-    return newXhr;
-  }
+  var StatusCode = {
+    OK: 200
+  };
 
-  function loadData(onDataLoadSuccess, onDataLoadError) {
-    var urlGet = 'https://javascript.pages.academy/keksobooking/data';
-    var xhrGet = createXhrRequest();
-    xhrGet.addEventListener('load', function () {
-      if (xhrGet.status === GOOD_STATUS) {
-        onDataLoadSuccess(xhrGet.response);
+  var TIMEOUT_IN_MS = 100000;
+
+  var getDataServer = function (onGetDataSucess, onGetDataError) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === StatusCode.OK) {
+        onGetDataSucess(xhr.response);
       } else {
-        onDataLoadError('Ошибка загрузки');
+        onGetDataError('Статус ошибки: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
-    xhrGet.open('GET', urlGet);
-    xhrGet.send();
-  }
 
-  function sendData(data, onDataSendSuccess, onDataSendError) {
-    var urlPost = 'https://javascript.pages.academy/keksobooking';
-    var xhrPost = createXhrRequest();
-    xhrPost.addEventListener('load', function () {
-      if (xhrPost.status === GOOD_STATUS) {
-        window.modal.show('Отправка прошла успешно');
-        onDataSendSuccess(xhrPost.response);
+    xhr.addEventListener('error', function () {
+      onGetDataError('Произошла ошибка соединения');
+    });
+
+    xhr.addEventListener('timeout', function () {
+      onGetDataError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    });
+
+    xhr.timeout = TIMEOUT_IN_MS;
+
+    xhr.open('GET', urlServer);
+
+    xhr.send();
+
+  };
+
+  var sendDataServer = function (data, onSendDataServer, onSendErrorDataServer) {
+
+    var urlSendServer = 'https://javascript.pages.academy/keksobooking';
+
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === StatusCode.OK) {
+        onSendDataServer(xhr.response);
       } else {
-        onDataSendError('Ошибка отправки');
+        onSendErrorDataServer('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
-    xhrPost.open('POST', urlPost);
-    xhrPost.send(data);
-  }
+
+    xhr.open('POST', urlSendServer);
+    xhr.send(data);
+
+  };
 
   window.backend = {
-    load: loadData,
-    send: sendData
+    load: getDataServer,
+    save: sendDataServer
   };
+
 })();
