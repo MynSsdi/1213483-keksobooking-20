@@ -18,7 +18,7 @@
     } */
 
     if (!isActivation) {
-      window.backend.load(window.pin.createMapPins);
+      window.backend.load(window.pin.createMapPins, window.pin.createMapPins);
     }
 
     isActivation = true;

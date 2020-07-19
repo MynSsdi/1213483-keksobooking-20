@@ -138,7 +138,7 @@
 
     pins.splice(window.data.MAX_COUNT_MAP_PIN, pins.length - 1);
 
-    updateCreateMapPins(pins);
+    //var same = window.filter.get(pins);
 
     var cardMapPin = document.querySelector('.map__card');
 
@@ -146,10 +146,10 @@
       cardMapPin.remove();
     }
 
-    window.filter.set(response, window.debounce(showPins));
-    var filteredData = window.filter.get(response);
-    showPins(filteredData);
+    window.filter.set(pins, window.debounce(updateCreateMapPins));
+    var filteredData = window.filter.get(pins);
     // renderMapPins(arrayPinsServer);
+    updateCreateMapPins(filteredData);
   };
 
   var deleteMapPins = function () {

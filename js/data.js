@@ -2,6 +2,7 @@
 'use strict';
 
 (function () {
+
   var COORD_LEFT_PIN_MAIN;
   var COORD_TOP_PIN_MAIN;
 
@@ -16,7 +17,6 @@
   var MIN_PRICE_FLAT = 1000;
   var MIN_PRICE_HOUSE = 5000;
   var MIN_PRICE_PALACE = 10000;
-
 
   var COUNT_RENTERS = 8;
   var MAX_COUNT_MAP_PIN = 5;

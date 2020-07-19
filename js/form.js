@@ -6,6 +6,7 @@
 'use strict';
 
 (function () {
+
   var main;
 
   var coordX;
