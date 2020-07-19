@@ -6,8 +6,8 @@
   var PINS_NUMBER = 5;
 
   var Price = {
-    LOW_MAX: 1000,
-    MIDDLE_MAX: 5000
+    LOW_MAX: 10000,
+    MIDDLE_MAX: 50000
   };
 
   var PriceValue = {

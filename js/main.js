@@ -3,6 +3,9 @@
 (function () {
   var MIN_PRICE_FLAT = 1000;
 
+  var BUTTON_MOUSE_LEFT = 0;
+  var BUTTON_KEY_ENTER = 13;
+
   var coordLeftPinMain;
   var coordTopPinMain;
 
@@ -64,7 +67,7 @@
   };
 
   var enabledElementForm = function (evt) {
-    if (evt.button === 0 || evt.keyCode === 13) {
+    if (evt.button === BUTTON_MOUSE_LEFT || evt.keyCode === BUTTON_KEY_ENTER) {
 
       document.querySelector('.map').classList.remove('map--faded');
       adForm.classList.remove('ad-form--disabled');

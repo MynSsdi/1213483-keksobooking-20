@@ -55,6 +55,7 @@
   var capacity = adForm.querySelector('.ad-form__capacity');
 
   var adFormPricePlaceholder = Price.FLAT;
+
   var adFormTypeChild = adFormType.querySelector('[value=flat]');
   adFormPrice.placeholder = adFormPricePlaceholder;
 
@@ -78,7 +79,7 @@
     if (adFormTitle.validity.valueMissing) {
       adFormTitle.setCustomValidity('Обязательное поле!');
     } else {
-      adFormTitle.setCustomValidity('');
+      adFormTitle.setCustomValidity('Нужно ввести количество символов в диапазоне от ' + MIN_TITLE_LENGTH + ' до ' + MAX_TITLE_LENGTH + ' включительно');
     }
   };
 
