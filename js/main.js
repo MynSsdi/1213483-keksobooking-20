@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var COORD_LEFT_PIN_MAIN;
+  var COORD_TOP_PIN_MAIN;
+
+  var mapPinMain = document.querySelector('.map__pin--main');
+
+  COORD_LEFT_PIN_MAIN = mapPinMain.style.left;
+  COORD_TOP_PIN_MAIN = mapPinMain.style.top;
 
   var arrayDataRenterList = [];
 
@@ -50,12 +57,11 @@
 
     adFormAddress.value = centerX + ', ' + centerY;
 
-    mapPinMain.style.left = window.data.COORD_LEFT_PIN_MAIN;
-    mapPinMain.style.top = window.data.COORD_TOP_PIN_MAIN;
+    mapPinMain.style.left = COORD_LEFT_PIN_MAIN;
+    mapPinMain.style.top = COORD_TOP_PIN_MAIN;
 
     var adFormPrice = adForm.querySelector('.ad-form__price');
-    adFormPrice.placeholder = window.data.MIN_PRICE_FLAT;
-
+    adFormPrice.placeholder = 1000;
   };
 
   var enabledElementForm = function (evt) {

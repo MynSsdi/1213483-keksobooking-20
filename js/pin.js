@@ -3,28 +3,15 @@
 'use strict';
 
 (function () {
+  var MAX_COUNT_MAP_PIN = 5;
+  var TOP_VERTICAL_LIMIT = 130;
+  var BOTTOM_VERTICAL_LIMIT = 630;
 
-  var ANY_VALUE = 'any';
-  var PINS_NUMBER = 5;
-
-  var Price = {
-    LOW_MAX: 1000,
-    MIDDLE_MAX: 5000
-  };
-
-  var PriceValue = {
-    LOW: 'low',
-    MIDDLE: 'middle',
-    HIGH: 'high'
-  };
+  var BUTTON_MOUSE_LEFT = 0;
+  var BUTTON_KEY_ESC = 27;
+  var BUTTON_KEY_ENTER = 13;
 
   var pins = [];
-  var sameHousingType;
-  var sameHousingPrice;
-  var sameHousingRooms;
-  var housingRooms;
-  var housingType;
-  var housingPrice;
   var isCreateRenderCard = false;
   var arrayDataRenterList = [];
   var mapPins = document.querySelector('.map__pins');
@@ -46,77 +33,14 @@
     renderMapPins(sames);
   };
 
-  var filterHousingType = function () {
-
-    var housingType = housingTypeForm.value;
-
-//у тебя есть специальная константа, используй ее
-    if (housingType !== 'any') {
-      sameHousingType = pins.filter(function (it) {
-        return it.offer.type === housingType;
-      });
-    } else {
-      sameHousingType = pins;
-    }
-    updateCreateMapPins(sameHousingType);
-    return 1;
-  };
-
-  var filterHousingRooms = function () {
-
-    var housingRooms = housingRoomsForm.value;
-
-//и здесь
-    if (housingRooms !== 'any') {
-      sameHousingRooms = pins.filter(function (it) {
-        return parseInt(it.offer.rooms) === parseInt(housingRooms);
-      });
-    } else {
-      sameHousingRooms = pins;
-    }
-    updateCreateMapPins(sameHousingRooms);
-    return 1;
-  };
-
-  var filterHousingPrice = function () {
-
-    var housingPrice = housingPriceForm.value;
-
-//цены должны быть упакованы в константы
-    var sameHousingPrice = pins.filter(function (it) {
-      var price = parseInt(it.offer.price);
-      switch (housingPrice) {
-        case 'middle':
-          if (price >= 10000 && price <= 50000) {
-            return price;
-          }
-          break;
-        case 'low':
-        if (price <= 10000) {
-          return price;
-        }
-        break;
-        case 'high':
-        if (price >= 50000) {
-          return price;
-        }
-        break;
-        default: return price;
-      }
-    });
-    updateCreateMapPins(sameHousingPrice);
-    return 1;
-  };
-
   var openPopupCard = function (evt) {
-    if (evt.button === 0 || evt.keyCode === 13 || evt.keyCode === 27) {
+    if (evt.button === BUTTON_MOUSE_LEFT || evt.keyCode === BUTTON_KEY_ENTER || evt.keyCode === BUTTON_KEY_ESC) {
       var cardMapPin = document.querySelector('.map__card');
       if (isCreateRenderCard && cardMapPin !== null) {
         cardMapPin.remove();
       }
       var indexMapPin = evt.currentTarget.getAttribute('data-pin-number');
       isCreateRenderCard = window.card.createRenderCard(arrayDataRenterList[indexMapPin]);
-
     }
   };
 
@@ -136,9 +60,7 @@
   var createMapPins = function (arrayPinsServer) {
     pins = arrayPinsServer.slice();
 
-    pins.splice(window.data.MAX_COUNT_MAP_PIN, pins.length - 1);
-
-    //var same = window.filter.get(pins);
+    pins.splice(MAX_COUNT_MAP_PIN, pins.length - 1);
 
     var cardMapPin = document.querySelector('.map__card');
 
@@ -148,7 +70,6 @@
 
     window.filter.set(pins, window.debounce(updateCreateMapPins));
     var filteredData = window.filter.get(pins);
-    // renderMapPins(arrayPinsServer);
     updateCreateMapPins(filteredData);
   };
 
@@ -185,23 +106,16 @@
 
     createDOMRenterItemCloneImage.src = arrayRenters.author.avatar;
     createDOMRenterItemCloneImage.alt = arrayRenters.offer.title;
-    //  createDOMRenterItemCloneImage.alt = arrayRenters.offer.title;
 
     return createDOMRenterItemClone;
   };
-
-  /*  var setAddressMapPin = function () {
-    var left = parseInt(arrayDataRenterList[0].location.x, 10);
-    var top = parseInt(arrayDataRenterList[0].location.y, 10);
-    adFormAddress.value = Math.round(left + left / 2) + ', ' + Math.round(top + 70);
-  }; */
 
   var dragged = false;
 
   var mousedown = function (evt) {
     evt.preventDefault();
 
-    if (evt.button === 0) {
+    if (evt.button === BUTTON_MOUSE_LEFT) {
 
       var coordsMainPinStyle = {
         x: mapMainPin.style.left,
@@ -242,8 +156,8 @@
         var horizontalLimitLeft = mapPinsRect.left;
         var horizontalLimitRight = mapPinsRect.right + window.scrollX;
 
-        var verticalLimitTop = window.data.TOP_VERTICAL_LIMIT;
-        var verticalLimitBottom = window.data.BOTTOM_VERTICAL_LIMIT;
+        var verticalLimitTop = TOP_VERTICAL_LIMIT;
+        var verticalLimitBottom = BOTTOM_VERTICAL_LIMIT;
 
         if ((window.form.coordY <= verticalLimitTop || window.form.coordY >= verticalLimitBottom)
          || (window.form.coordX <= horizontalLimitLeft || window.form.coordX >= horizontalLimitRight)) {
