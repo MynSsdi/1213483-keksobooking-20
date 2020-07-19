@@ -1,6 +1,21 @@
 'use strict';
 
 (function () {
+
+  var ANY_VALUE = 'any';
+  var PINS_NUMBER = 5;
+
+  var Price = {
+    LOW_MAX: 1000,
+    MIDDLE_MAX: 5000
+  };
+
+  var PriceValue = {
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
+  };
+
   var pins = [];
   var sameHousingType;
   var sameHousingPrice;
@@ -16,29 +31,22 @@
   var housingPriceForm = mapFiltersForm.querySelector('#housing-price');
   var housingRoomsForm = mapFiltersForm.querySelector('#housing-rooms');
   var housingGuestsForm = mapFiltersForm.querySelector('#housing-guests');
+  var filterForm = document.querySelector('.map__filters');
+  var type = filterForm.querySelector('#housing-type');
+  var price = filterForm.querySelector('#housing-price');
+  var rooms = filterForm.querySelector('#housing-rooms');
+  var guests = filterForm.querySelector('#housing-guests');
+  var featuresFieldset = filterForm.querySelector('#housing-features');
+  var features = featuresFieldset.querySelectorAll('.map__checkbox');
 
   var updateCreateMapPins = function (sames) {
     deleteMapPins();
     renderMapPins(sames);
   };
 
-  var changeHousingType = function () {
-    var cardMapPin = document.querySelector('.map__card');
+  var filterHousingType = function () {
 
-    if (cardMapPin !== null) {
-      cardMapPin.remove();
-    }
-
-    housingType = housingTypeForm.value;
-    housingPrice = housingPriceForm.value;
-    housingRooms = housingRoomsForm.value;
-
-  //  var housingPriceOption = housingPriceForm.querySelector('[value=' + housingPrice + ']');
-
-  //  console.log(parseInt(housingPriceOption.textContent));
-
-
-
+    var housingType = housingTypeForm.value;
 
     if (housingType !== 'any') {
       sameHousingType = pins.filter(function (it) {
@@ -47,40 +55,52 @@
     } else {
       sameHousingType = pins;
     }
+    updateCreateMapPins(sameHousingType);
+    return 1;
+  };
 
+  var filterHousingRooms = function () {
 
+    var housingRooms = housingRoomsForm.value;
 
-      if (housingRooms !== 'any') {
-        sameHousingRooms = sameHousingType.filter(function (it) {
-          return parseInt(it.offer.rooms) === parseInt(housingRooms);
-        });
-      } else {
-        sameHousingRooms = sameHousingType;
-      }
-
-      var sameHousingPrice = sameHousingType.filter(function (it) {
-        var price = parseInt(it.offer.price);
-        switch (housingPrice) {
-          case 'middle':
-            if (price >= 10000 && price <= 50000) {
-              return price;
-            }
-            break;
-          case 'low':
-          if (price <= 10000) {
-            return price;
-          }
-          break;
-          case 'high':
-          if (price >= 50000) {
-            return price;
-          }
-          break;
-          default: return price;
-        }
+    if (housingRooms !== 'any') {
+      sameHousingRooms = pins.filter(function (it) {
+        return parseInt(it.offer.rooms) === parseInt(housingRooms);
       });
+    } else {
+      sameHousingRooms = pins;
+    }
+    updateCreateMapPins(sameHousingRooms);
+    return 1;
+  };
 
+  var filterHousingPrice = function () {
+
+    var housingPrice = housingPriceForm.value;
+
+    var sameHousingPrice = pins.filter(function (it) {
+      var price = parseInt(it.offer.price);
+      switch (housingPrice) {
+        case 'middle':
+          if (price >= 10000 && price <= 50000) {
+            return price;
+          }
+          break;
+        case 'low':
+        if (price <= 10000) {
+          return price;
+        }
+        break;
+        case 'high':
+        if (price >= 50000) {
+          return price;
+        }
+        break;
+        default: return price;
+      }
+    });
     updateCreateMapPins(sameHousingPrice);
+    return 1;
   };
 
   var openPopupCard = function (evt) {
@@ -113,12 +133,17 @@
 
     pins.splice(window.data.MAX_COUNT_MAP_PIN, pins.length - 1);
 
-    changeHousingType();
+    updateCreateMapPins(pins);
 
-    housingTypeForm.addEventListener('change', changeHousingType);
-    housingPriceForm.addEventListener('change', changeHousingType);
-    housingRoomsForm.addEventListener('change', changeHousingType);
+    var cardMapPin = document.querySelector('.map__card');
 
+    if (cardMapPin !== null) {
+      cardMapPin.remove();
+    }
+
+    window.filter.set(response, window.debounce(showPins));
+    var filteredData = window.filter.get(response);
+    showPins(filteredData);
     // renderMapPins(arrayPinsServer);
   };
 
