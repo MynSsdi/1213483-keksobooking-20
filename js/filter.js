@@ -26,10 +26,10 @@
   function checkPriceRange(range, priceValue) {
     switch (range) {
       case ('middle'): {
-        return (priceValue >= 1000 && priceValue <= 50000);
+        return (priceValue >= 10000 && priceValue <= 50000);
       }
       case ('low'): {
-        return (priceValue < 1000);
+        return (priceValue < 10000);
       }
       case ('high'): {
         return (priceValue > 50000);
