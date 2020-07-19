@@ -1,5 +1,3 @@
-// опять же, структура файла в первую очередь. И выкинь объявления типа   var sameHousingType;
-//   var sameHousingPrice; - они ничего не дают
 'use strict';
 
 (function () {
@@ -12,21 +10,11 @@
   var BUTTON_KEY_ENTER = 13;
 
   var pins = [];
+  var dragged = false;
   var isCreateRenderCard = false;
   var arrayDataRenterList = [];
   var mapPins = document.querySelector('.map__pins');
-  var mapFiltersForm = document.querySelector('.map__filters');
-  var housingTypeForm = mapFiltersForm.querySelector('#housing-type');
-  var housingPriceForm = mapFiltersForm.querySelector('#housing-price');
-  var housingRoomsForm = mapFiltersForm.querySelector('#housing-rooms');
-  var housingGuestsForm = mapFiltersForm.querySelector('#housing-guests');
-  var filterForm = document.querySelector('.map__filters');
-  var type = filterForm.querySelector('#housing-type');
-  var price = filterForm.querySelector('#housing-price');
-  var rooms = filterForm.querySelector('#housing-rooms');
-  var guests = filterForm.querySelector('#housing-guests');
-  var featuresFieldset = filterForm.querySelector('#housing-features');
-  var features = featuresFieldset.querySelectorAll('.map__checkbox');
+  var mapMainPin = mapPins.querySelector('.map__pin--main');
 
   var updateCreateMapPins = function (sames) {
     deleteMapPins();
@@ -110,8 +98,6 @@
     return createDOMRenterItemClone;
   };
 
-  var dragged = false;
-
   var mousedown = function (evt) {
     evt.preventDefault();
 
@@ -188,12 +174,11 @@
     }
   };
 
-  var mapMainPin = mapPins.querySelector('.map__pin--main');
-  mapMainPin.addEventListener('mousedown', mousedown);
-
   document.removeEventListener('click', function (evt) {
     evt.preventDefault();
   });
+
+  mapMainPin.addEventListener('mousedown', mousedown);
 
   window.pin = {
     createDOMRenterItem: createDOMRenterItem,

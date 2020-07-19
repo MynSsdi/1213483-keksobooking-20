@@ -16,30 +16,30 @@
 
   var mapPins = document.querySelector('.map__pins');
 
-  var renderDOMPhotos = function(domPhotos, photos) {
+  var renderDOMPhotos = function (domPhotos, photos) {
     var photo = domPhotos.querySelector('.popup__photo');
     photo.src = photos[0];
     domPhotos.appendChild(photo);
-    for (var i = 1; i < photos.length; i++) {
+    photos.forEach(function (item) {
       var newPhoto = photo.cloneNode(true);
-      newPhoto.src = photos[i];
+      newPhoto.src = item;
       domPhotos.appendChild(newPhoto);
-    }
+    });
   };
 
-  var clearChildren = function(parent) {
+  var clearChildren = function (parent) {
     parent.innerHTML = '';
   };
 
-  var renderDOMFeatures = function(domUl, features) {
+  var renderDOMFeatures = function (domUl, features) {
     clearChildren(domUl);
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (item) {
       var li = document.createElement('li');
       li.classList.add('popup__feature');
-      var classString = 'popup__feature--' + features[i];
+      var classString = 'popup__feature--' + item;
       li.classList.add(classString);
       domUl.appendChild(li);
-    }
+    });
   };
 
   var closePopupCard = function (evt) {

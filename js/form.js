@@ -1,8 +1,3 @@
-//Начни с приведения файла к единой структуре
-// сначала все константы
-// потом все переменные
-// потом все функции описываются
-// уже потом идут вызовы
 'use strict';
 
 (function () {
@@ -24,6 +19,13 @@
     MAX: 1000000
   };
 
+  var Title = {
+    BUNGALO: 'bungalo',
+    FLAT: 'flat',
+    HOUSE: 'house',
+    PALACE: 'palace'
+  };
+
   var main;
   var coordX;
   var coordY;
@@ -31,6 +33,7 @@
   var messageSuccess = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 
   var adForm = document.querySelector('.ad-form');
+  var mapFiltersForm = document.querySelector('.map__filters');
   var adFormTitle = adForm.querySelector('.ad-form__title');
   var adFormAddress = adForm.querySelector('.ad-form__address');
   var adFormType = adForm.querySelector('.ad-form__type');
@@ -42,6 +45,9 @@
   var timeOut = adForm.querySelector('.ad-form__timeOut');
 
   var buttonReset = document.querySelector('.ad-form__reset');
+
+  var messageError;
+  var buttonCloseMessageError;
 
   var adFormPriceValue;
 
@@ -58,30 +64,14 @@
     numberRooms = (numberRooms === DONT_GUESTS) ? '0' : rooms.value;
     capacity.value = numberRooms;
 
-    //здесь переписать через forEach - пример в модуле card
-    // if-else можно заменить на тернарный оператор:
-    // capacity.forEach(function(item, i) {
-    //   item.value === numberRooms ? item.setAttribute('selected', '') : item.removeAttribute('selected', '')
-    // })
-    //также поступи со всеми штуками в этой функции - их два для комнат и два для гостей
-    //вторым этапом вынеси все эти мелкие кусочки в отдельную функцию
-    //не забудь, что 100 - это константа!
+    Object.keys(capacity).forEach(function (item) {
+      return capacity[item].value === numberRooms ? capacity[item].setAttribute('selected', '') : capacity[item].removeAttribute('selected', '');
+    });
 
-    for (var i = 0; i < capacity.length; i++) {
-      if (capacity[i].value === numberRooms) {
-        capacity[i].setAttribute('selected', '');
-      } else {
-        capacity[i].removeAttribute('selected', '');
-      }
-    }
+    Object.keys(capacity).forEach(function (item) {
+      return capacity[item].value <= numberRooms && capacity[item].value > '0' || numberRooms === '0' && capacity[item].value === '0' ? capacity[item].removeAttribute('disabled', '') : capacity[item].setAttribute('disabled', '');
+    });
 
-    for (var j = 0; j < capacity.length; j++) {
-      if (capacity[j].value <= numberRooms && capacity[j].value > '0' || (numberRooms === '0' && capacity[j].value === '0')) {
-        capacity[j].removeAttribute('disabled', '');
-      } else {
-        capacity[j].setAttribute('disabled', '');
-      }
-    }
   };
 
   var listenTitleInvalid = function () {
@@ -106,28 +96,28 @@
   var listenTypeChange = function () {
     var adFormTypeValue = adFormType.value;
     switch (adFormTypeValue) {
-      case 'bungalo':
+      case Title.BUNGALO:
         adFormPricePlaceholder = Price.BUNGALO;
         adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
-      case 'flat':
+      case Title.FLAT:
         adFormPricePlaceholder = Price.FLAT;
         adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
-      case 'house':
+      case Title.HOUSE:
         adFormPricePlaceholder = Price.HOUSE;
         adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
-      case 'palace':
+      case Title.PALACE:
         adFormPricePlaceholder = Price.PALACE;
         adFormPrice.placeholder = adFormPricePlaceholder;
         adFormTypeChild = adFormType.querySelector('[value=' + adFormTypeValue + ']');
         break;
     }
-  }
+  };
 
   var listenPriceInvalidKeydown = function () {
     adFormPriceValue = parseInt(adFormPrice.value, 10);
@@ -189,20 +179,9 @@
     }
   };
 
-  var closeMessageError = function () {
-    if (evt.keyCode === BUTTON_KEY_ESC || evt.button === BUTTON_MOUSE_LEFT || (evt.srcElement === buttonCloseMessageError && evt.keyCode === BUTTON_KEY_ENTER)) {
-      messageError.remove();
-
-      document.removeEventListener('keydown', closeMessageError);
-      document.removeEventListener('mousedown', closeMessageError);
-
-      buttonCloseMessageError.removeEventListener('keydown', closeMessageError);
-      buttonCloseMessageError.removeEventListener('mousedown', closeMessageError);
-    }
-  };
-
   var onSuccessSendDataServer = function () {
     adForm.reset();
+    mapFiltersForm.reset();
 
     window.main.disableElementForm();
 
@@ -211,12 +190,11 @@
     document.addEventListener('keydown', closeMessageSuccess);
     document.addEventListener('mousedown', closeMessageSuccess);
 
-
   };
 
-  var onErrorSendDataServer = function (evt) {
-    var messageError = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-    var buttonCloseMessageError = messageError.querySelector('.error__button');
+  var onErrorSendDataServer = function () {
+    messageError = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    buttonCloseMessageError = messageError.querySelector('.error__button');
 
     main.appendChild(messageError);
 
@@ -228,6 +206,18 @@
 
   };
 
+  var closeMessageError = function (evt) {
+    if (evt.keyCode === BUTTON_KEY_ESC || evt.button === BUTTON_MOUSE_LEFT || (evt.srcElement === buttonCloseMessageError && evt.keyCode === BUTTON_KEY_ENTER)) {
+      messageError.remove();
+
+      document.removeEventListener('keydown', closeMessageError);
+      document.removeEventListener('mousedown', closeMessageError);
+
+      buttonCloseMessageError.removeEventListener('keydown', closeMessageError);
+      buttonCloseMessageError.removeEventListener('mousedown', closeMessageError);
+    }
+  };
+
   var onSubmitFormServer = function (evt) {
     main = document.querySelector('main');
     window.backend.save(new FormData(adForm), onSuccessSendDataServer, onErrorSendDataServer);
@@ -236,6 +226,7 @@
 
   var resetForm = function () {
     adForm.reset();
+    mapFiltersForm.reset();
     window.main.disableElementForm();
   };
 
@@ -255,7 +246,8 @@
   window.form = {
     setAdFormAddress: setAdFormAddress,
     coordX: coordX,
-    coordY: coordY
+    coordY: coordY,
+    price: Price
   };
 
 })();

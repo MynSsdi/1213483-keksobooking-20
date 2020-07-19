@@ -24,7 +24,7 @@
   var featuresFieldset = filterForm.querySelector('#housing-features');
   var features = featuresFieldset.querySelectorAll('.map__checkbox');
 
-  var getCheckedFeatures = function() {
+  var getCheckedFeatures = function () {
     var checkedValues = [];
     Array.from(features).forEach(function (element) {
       if (element.checked) {
@@ -34,9 +34,9 @@
     return checkedValues;
   };
 
-  var checkType = function(element) {
+  var checkType = function (element) {
     return type.value === ANY_VALUE ? true : element.offer.type === type.value;
-  }
+  };
 
   var checkPriceRange = function (range, priceValue) {
     switch (range) {
@@ -59,36 +59,36 @@
 
   var checkRooms = function (element) {
     return rooms.value === ANY_VALUE ? true : parseInt(element.offer.rooms, 10) === parseInt(rooms.value, 10);
-  }
+  };
 
   var checkGuests = function (element) {
     return guests.value === ANY_VALUE ? true : parseInt(element.offer.guests, 10) === parseInt(guests.value, 10);
-  }
+  };
 
   var isNested = function (inners, outers) {
     var markedValues = inners.filter(function (element) {
       return outers.indexOf(element) !== -1;
     });
     return markedValues.length === inners.length;
-  }
+  };
 
-  var checkFeatures = function(element) {
-     return getCheckedFeatures().length === 0 ? true : isNested(getCheckedFeatures(), element.offer.features);
-   }
+  var checkFeatures = function (element) {
+    return getCheckedFeatures().length === 0 ? true : isNested(getCheckedFeatures(), element.offer.features);
+  };
 
-   var getFilterState = function (dataValues) {
-     var filteredData = dataValues.filter(function (element) {
-       return checkType(element) && checkPrice(element) && checkRooms(element) && checkGuests(element) && checkFeatures(element);
-     });
-     return filteredData.length > PINS_NUMBER ? filteredData.slice(0, PINS_NUMBER) : filteredData;
-   }
+  var getFilterState = function (dataValues) {
+    var filteredData = dataValues.filter(function (element) {
+      return checkType(element) && checkPrice(element) && checkRooms(element) && checkGuests(element) && checkFeatures(element);
+    });
+    return filteredData.length > PINS_NUMBER ? filteredData.slice(0, PINS_NUMBER) : filteredData;
+  };
 
   var setFilters = function (dataValues, callback) {
     filterForm.addEventListener('change', function () {
       var filteredData = getFilterState(dataValues);
       callback(filteredData);
     });
-  }
+  };
 
   window.filter = {
     set: setFilters,
