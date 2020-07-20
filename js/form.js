@@ -59,7 +59,7 @@
   var adFormTypeChild = adFormType.querySelector('[value=flat]');
   adFormPrice.placeholder = adFormPricePlaceholder;
 
-  var changeNumberRooms = function () {
+  var onChangeNumberRooms = function () {
 
     numberRooms = rooms.value;
     numberRooms = (numberRooms === DONT_GUESTS) ? '0' : rooms.value;
@@ -83,7 +83,7 @@
     capacity[2].setAttribute('selected', '');
   };
 
-  var listenTitleInvalid = function () {
+  var onTitleInvalid = function () {
     if (adFormTitle.validity.valueMissing) {
       adFormTitle.setCustomValidity('Обязательное поле!');
     } else {
@@ -91,7 +91,7 @@
     }
   };
 
-  var listenTitleInput = function () {
+  var onTitleInput = function () {
     var valueLength = adFormTitle.value.length;
     if (valueLength < MIN_TITLE_LENGTH) {
       adFormTitle.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
@@ -102,7 +102,7 @@
     }
   };
 
-  var listenTypeChange = function () {
+  var onTypeChange = function () {
     var adFormTypeValue = adFormType.value;
     switch (adFormTypeValue) {
       case Title.BUNGALO:
@@ -128,7 +128,7 @@
     }
   };
 
-  var listenPriceInvalidKeydown = function () {
+  var onPriceInvalidKeydown = function () {
     adFormPriceValue = parseInt(adFormPrice.value, 10);
 
     if (adFormPriceValue < adFormPricePlaceholder) {
@@ -142,15 +142,15 @@
     }
   };
 
-  var listenTimeInChange = function () {
+  var onTimeInChange = function () {
     timeOut.value = timeIn.value;
   };
 
-  var listenTimeOutChange = function () {
+  var onTimeOutChange = function () {
     timeIn.value = timeOut.value;
   };
 
-  var listenImagesChange = function () {
+  var onImagesChange = function () {
     var adFormPhotoFileType = adFormImages.files[0].type;
     if (adFormPhotoFileType === 'image/png' || adFormPhotoFileType === 'image/jpeg') {
       adFormImages.setCustomValidity('Файл выбран');
@@ -159,7 +159,7 @@
     }
   };
 
-  var listenAvatarChange = function () {
+  var onAvatarChange = function () {
     var adFormPhotoFileType = adFormAvatar.files[0].type;
     if (adFormPhotoFileType === 'image/png' || adFormPhotoFileType === 'image/jpeg') {
       adFormImages.setCustomValidity('Файл выбран');
@@ -180,11 +180,11 @@
     adFormAddress.value = window.form.coordX + ', ' + window.form.coordY;
   };
 
-  var closeMessageSuccess = function (evt) {
+  var onMessageSuccessClose = function (evt) {
     if (evt.keyCode === BUTTON_KEY_ESC || evt.button === BUTTON_MOUSE_LEFT) {
       messageSuccess.remove();
-      document.removeEventListener('keydown', closeMessageSuccess);
-      document.removeEventListener('mousedown', closeMessageSuccess);
+      document.removeEventListener('keydown', onMessageSuccessClose);
+      document.removeEventListener('mousedown', onMessageSuccessClose);
     }
   };
 
@@ -200,8 +200,8 @@
 
     main.appendChild(messageSuccess);
 
-    document.addEventListener('keydown', closeMessageSuccess);
-    document.addEventListener('mousedown', closeMessageSuccess);
+    document.addEventListener('keydown', onMessageSuccessClose);
+    document.addEventListener('mousedown', onMessageSuccessClose);
 
   };
 
@@ -237,24 +237,24 @@
     evt.preventDefault();
   };
 
-  var resetForm = function () {
+  var onFormReset = function () {
     adForm.reset();
     mapFiltersForm.reset();
     window.main.disableElementForm();
   };
 
-  adFormTitle.addEventListener('invalid', listenTitleInvalid);
-  adFormTitle.addEventListener('input', listenTitleInput);
-  adFormType.addEventListener('change', listenTypeChange);
-  adFormPrice.addEventListener('keydown', listenPriceInvalidKeydown);
-  adFormPrice.addEventListener('invalid', listenPriceInvalidKeydown);
-  timeIn.addEventListener('change', listenTimeInChange);
-  timeOut.addEventListener('change', listenTimeOutChange);
-  adFormImages.addEventListener('change', listenImagesChange);
-  adFormAvatar.addEventListener('change', listenAvatarChange);
+  adFormTitle.addEventListener('invalid', onTitleInvalid);
+  adFormTitle.addEventListener('input', onTitleInput);
+  adFormType.addEventListener('change', onTypeChange);
+  adFormPrice.addEventListener('keydown', onPriceInvalidKeydown);
+  adFormPrice.addEventListener('invalid', onPriceInvalidKeydown);
+  timeIn.addEventListener('change', onTimeInChange);
+  timeOut.addEventListener('change', onTimeOutChange);
+  adFormImages.addEventListener('change', onImagesChange);
+  adFormAvatar.addEventListener('change', onAvatarChange);
   adForm.addEventListener('submit', onSubmitFormServer);
-  rooms.addEventListener('change', changeNumberRooms);
-  buttonReset.addEventListener('click', resetForm);
+  rooms.addEventListener('change', onChangeNumberRooms);
+  buttonReset.addEventListener('click', onFormReset);
 
   window.form = {
     setAdFormAddress: setAdFormAddress,

@@ -24,7 +24,7 @@
     renderMapPins(sames);
   };
 
-  var openPopupCard = function (evt) {
+  var onPopupCardOpen = function (evt) {
     if (evt.button === BUTTON_MOUSE_LEFT || evt.keyCode === BUTTON_KEY_ENTER || evt.keyCode === BUTTON_KEY_ESC) {
       cardMapPin = document.querySelector('.map__card');
       if (isCreateRenderCard && cardMapPin !== null) {
@@ -41,8 +41,8 @@
     childMapPins = mapPins.querySelectorAll('.map__pin--child');
 
     childMapPins.forEach(function (childMapPin) {
-      childMapPin.addEventListener('mousedown', openPopupCard);
-      childMapPin.addEventListener('keydown', openPopupCard);
+      childMapPin.addEventListener('mousedown', onPopupCardOpen);
+      childMapPin.addEventListener('keydown', onPopupCardOpen);
     });
 
     window.form.setAdFormAddress();
@@ -106,7 +106,7 @@
     return createDOMRenterItemClone;
   };
 
-  var mousedown = function (evt) {
+  var onMouseDown = function (evt) {
     evt.preventDefault();
 
     if (evt.button === BUTTON_MOUSE_LEFT) {
@@ -186,7 +186,7 @@
     evt.preventDefault();
   });
 
-  mapMainPin.addEventListener('mousedown', mousedown);
+  mapMainPin.addEventListener('mousedown', onMouseDown);
 
   window.pin = {
     createDOMRenterItem: createDOMRenterItem,

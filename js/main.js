@@ -18,13 +18,6 @@
   coordTopPinMain = mapPinMain.style.top;
 
   var activationPage = function () {
-    /* if (isActivation) {
-      var childMapPins = mapPins.querySelector('.map__pin--child');
-      while (childMapPins !== null) {
-        mapPins.removeChild(childMapPins);
-        childMapPins = mapPins.querySelector('.map__pin--child');
-      }
-    } */
 
     if (!isActivation) {
       window.backend.load(window.pin.createMapPins, window.pin.createMapPins);

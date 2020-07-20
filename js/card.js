@@ -19,16 +19,17 @@
     var photo = domPhotos.querySelector('.popup__photo');
 
     if (photos.length !== 0) {
-      photo.src = photos[0];
-      domPhotos.appendChild(photo);
       photos.forEach(function (item) {
         var newPhoto = photo.cloneNode(true);
         newPhoto.src = item;
         domPhotos.appendChild(newPhoto);
       });
+      domPhotos.removeChild(domPhotos.firstChild);
+      domPhotos.removeChild(domPhotos.firstChild);
     } else {
       photo.remove();
     }
+
   };
 
   var clearChildren = function (parent) {
