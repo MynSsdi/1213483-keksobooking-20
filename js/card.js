@@ -6,6 +6,7 @@
   var BUTTON_KEY_ESC = 27;
 
   var isCreateRenderCard = true;
+  var mapPins = document.querySelector('.map__pins');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var cardMapPin;
   var popupClose;
@@ -14,17 +15,20 @@
     return window.main.setArrayDataRenterList();
   };
 
-  var mapPins = document.querySelector('.map__pins');
-
   var renderDOMPhotos = function (domPhotos, photos) {
     var photo = domPhotos.querySelector('.popup__photo');
-    photo.src = photos[0];
-    domPhotos.appendChild(photo);
-    photos.forEach(function (item) {
-      var newPhoto = photo.cloneNode(true);
-      newPhoto.src = item;
-      domPhotos.appendChild(newPhoto);
-    });
+
+    if (photos.length !== 0) {
+      photo.src = photos[0];
+      domPhotos.appendChild(photo);
+      photos.forEach(function (item) {
+        var newPhoto = photo.cloneNode(true);
+        newPhoto.src = item;
+        domPhotos.appendChild(newPhoto);
+      });
+    } else {
+      photo.remove();
+    }
   };
 
   var clearChildren = function (parent) {
