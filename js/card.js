@@ -47,7 +47,6 @@
 
     if (evt.button === BUTTON_MOUSE_LEFT || evt.keyCode === BUTTON_KEY_ESC) {
       cardMapPin.remove();
-      document.removeEventListener('keydown', closePopupCard);
     }
   };
 
@@ -70,7 +69,7 @@
     cardMapPin.focus();
 
     popupClose.addEventListener('mousedown', closePopupCard);
-    document.addEventListener('keydown', closePopupCard);
+    cardMapPin.addEventListener('keydown', closePopupCard);
     return isCreateRenderCard;
   };
 

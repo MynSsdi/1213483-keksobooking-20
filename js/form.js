@@ -75,6 +75,14 @@
 
   };
 
+  var resetCapacityValue = function () {
+    Object.keys(capacity).forEach(function (item) {
+      capacity[item].removeAttribute('disabled', '');
+      capacity[item].removeAttribute('selected', '');
+    });
+    capacity[2].setAttribute('selected', '');
+  };
+
   var listenTitleInvalid = function () {
     if (adFormTitle.validity.valueMissing) {
       adFormTitle.setCustomValidity('Обязательное поле!');
@@ -183,6 +191,10 @@
   var onSuccessSendDataServer = function () {
     adForm.reset();
     mapFiltersForm.reset();
+
+    adFormPrice.placeholder = Price.FLAT;
+
+    resetCapacityValue();
 
     window.main.disableElementForm();
 

@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var MIN_PRICE_FLAT = 1000;
 
   var BUTTON_MOUSE_LEFT = 0;
   var BUTTON_KEY_ENTER = 13;
@@ -62,8 +61,6 @@
     mapPinMain.style.left = coordLeftPinMain;
     mapPinMain.style.top = coordTopPinMain;
 
-    var adFormPrice = adForm.querySelector('.ad-form__price');
-    adFormPrice.placeholder = MIN_PRICE_FLAT;
   };
 
   var enabledElementForm = function (evt) {

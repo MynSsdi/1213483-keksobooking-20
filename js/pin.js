@@ -13,6 +13,9 @@
   var dragged = false;
   var isCreateRenderCard = false;
   var arrayDataRenterList = [];
+  var cardMapPin;
+  var childMapPins;
+  var mapPinsChild;
   var mapPins = document.querySelector('.map__pins');
   var mapMainPin = mapPins.querySelector('.map__pin--main');
 
@@ -23,7 +26,7 @@
 
   var openPopupCard = function (evt) {
     if (evt.button === BUTTON_MOUSE_LEFT || evt.keyCode === BUTTON_KEY_ENTER || evt.keyCode === BUTTON_KEY_ESC) {
-      var cardMapPin = document.querySelector('.map__card');
+      cardMapPin = document.querySelector('.map__card');
       if (isCreateRenderCard && cardMapPin !== null) {
         cardMapPin.remove();
       }
@@ -35,7 +38,7 @@
   var renderMapPins = function (arrayPinsServer) {
     mapPins.appendChild(createDOMRenterList(arrayPinsServer));
 
-    var childMapPins = mapPins.querySelectorAll('.map__pin--child');
+    childMapPins = mapPins.querySelectorAll('.map__pin--child');
 
     childMapPins.forEach(function (childMapPin) {
       childMapPin.addEventListener('mousedown', openPopupCard);
@@ -50,7 +53,7 @@
 
     pins.splice(MAX_COUNT_MAP_PIN, pins.length - 1);
 
-    var cardMapPin = document.querySelector('.map__card');
+    cardMapPin = document.querySelector('.map__card');
 
     if (cardMapPin !== null) {
       cardMapPin.remove();
@@ -62,11 +65,16 @@
   };
 
   var deleteMapPins = function () {
-    var mapPinsChild = document.querySelectorAll('.map__pin--child');
+    cardMapPin = document.querySelector('.map__card');
+    mapPinsChild = document.querySelectorAll('.map__pin--child');
 
     mapPinsChild.forEach(function (mapPinChildren) {
       mapPinChildren.remove();
     });
+
+    if (cardMapPin !== null) {
+      cardMapPin.remove();
+    }
   };
 
   var createDOMRenterList = function (pDataRenterList) {
