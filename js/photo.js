@@ -30,6 +30,7 @@
   };
 
   var createNewImage = function (link) {
+    previewHouse.innerHTML = '';
     var img = document.createElement('img');
     img.classList.add('ad-form__photo-image');
     img.src = link;
