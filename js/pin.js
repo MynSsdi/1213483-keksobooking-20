@@ -150,10 +150,7 @@
         var horizontalLimitLeft = mapPinsRect.left;
         var horizontalLimitRight = mapPinsRect.right + window.scrollX;
 
-        var verticalLimitTop = TOP_VERTICAL_LIMIT;
-        var verticalLimitBottom = BOTTOM_VERTICAL_LIMIT;
-
-        if ((window.form.coordY <= verticalLimitTop || window.form.coordY >= verticalLimitBottom)
+        if ((window.form.coordY <= TOP_VERTICAL_LIMIT || window.form.coordY >= BOTTOM_VERTICAL_LIMIT)
          || (window.form.coordX <= horizontalLimitLeft || window.form.coordX >= horizontalLimitRight)) {
           mapMainPin.style.left = coordsMainPinStyle.x;
           mapMainPin.style.top = coordsMainPinStyle.y;
