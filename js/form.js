@@ -2,6 +2,11 @@
 
 (function () {
 
+  var IMAGE_AVATAR_SOURCE = 'img/muffin-grey.svg';
+  var ICON_AVATAR_WIDTH = '40px';
+  var ICON_AVATAR_HEIGHT = '44px';
+  var ICON_AVATAR_PADDING = '0 15px';
+
   var DONT_GUESTS = '100';
 
   var MIN_TITLE_LENGTH = 30;
@@ -31,6 +36,8 @@
   var coordY;
   var numberRooms;
   var messageSuccess = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+  var adFormPhotoFileType;
+  var adFormAvatarFileType;
 
   var adForm = document.querySelector('.ad-form');
   var mapFiltersForm = document.querySelector('.map__filters');
@@ -40,6 +47,10 @@
   var adFormPrice = adForm.querySelector('.ad-form__price');
   var adFormImages = adForm.querySelector('.ad-form__images');
   var adFormAvatar = adForm.querySelector('.ad-form-header__avatar');
+  var previewHouse = document.querySelector('.ad-form__photo');
+  var adFormHeader = document.querySelector('.ad-form-header');
+  var adFormHeaderPreview = adFormHeader.querySelector('.ad-form-header__preview');
+  var previewAvatar = adFormHeader.querySelector('.ad-form-header__preview-image');
 
   var timeIn = adForm.querySelector('.ad-form__timeIn');
   var timeOut = adForm.querySelector('.ad-form__timeOut');
@@ -151,20 +162,26 @@
   };
 
   var onImagesChange = function () {
-    var adFormPhotoFileType = adFormImages.files[0].type;
-    if (adFormPhotoFileType === 'image/png' || adFormPhotoFileType === 'image/jpeg') {
-      adFormImages.setCustomValidity('Файл выбран');
+    if (adFormAvatar.files[0] !== undefined) {
+      adFormPhotoFileType = adFormImages.files[0].type;
+    }
+
+    if (adFormPhotoFileType !== undefined && adFormPhotoFileType !== 'image/png' && adFormPhotoFileType !== 'image/jpeg' && adFormPhotoFileType !== 'image/jpg' && adFormPhotoFileType !== 'image/gif') {
+      adFormImages.setCustomValidity('Выберите, пожалуйста, файл с расширеним JPG, JPEG, PNG или GIF');
     } else {
-      adFormImages.setCustomValidity('Выберите, пожалуйста, файл с расширеним JPG или PNG');
+      adFormImages.setCustomValidity('');
     }
   };
 
   var onAvatarChange = function () {
-    var adFormPhotoFileType = adFormAvatar.files[0].type;
-    if (adFormPhotoFileType === 'image/png' || adFormPhotoFileType === 'image/jpeg') {
-      adFormImages.setCustomValidity('Файл выбран');
+    if (adFormAvatar.files[0] !== undefined) {
+      adFormAvatarFileType = adFormAvatar.files[0].type;
+    }
+
+    if (adFormAvatarFileType !== undefined && adFormAvatarFileType !== 'image/png' && adFormAvatarFileType !== 'image/jpeg' && adFormAvatarFileType !== 'image/jpg' && adFormAvatarFileType !== 'image/gif') {
+      adFormAvatar.setCustomValidity('Выберите, пожалуйста, файл с расширеним JPG, JPEG, PNG или GIF');
     } else {
-      adFormImages.setCustomValidity('Выберите, пожалуйста, файл с расширеним JPG или PNG');
+      adFormAvatar.setCustomValidity('');
     }
   };
 
@@ -180,6 +197,14 @@
     adFormAddress.value = window.form.coordX + ', ' + window.form.coordY;
   };
 
+  var resetPhotos = function () {
+    previewAvatar.src = IMAGE_AVATAR_SOURCE;
+    adFormHeaderPreview.style.padding = ICON_AVATAR_PADDING;
+    previewAvatar.style.width = ICON_AVATAR_WIDTH;
+    previewAvatar.style.height = ICON_AVATAR_HEIGHT;
+    previewHouse.innerHTML = '';
+  };
+
   var onMessageSuccessClose = function (evt) {
     if (evt.keyCode === BUTTON_KEY_ESC || evt.button === BUTTON_MOUSE_LEFT) {
       messageSuccess.remove();
@@ -191,6 +216,7 @@
   var onSuccessSendDataServer = function () {
     adForm.reset();
     mapFiltersForm.reset();
+    resetPhotos();
 
     adFormPrice.placeholder = Price.FLAT;
 
@@ -241,6 +267,7 @@
     adForm.reset();
     mapFiltersForm.reset();
     window.main.disableElementForm();
+    resetPhotos();
   };
 
   adFormTitle.addEventListener('invalid', onTitleInvalid);

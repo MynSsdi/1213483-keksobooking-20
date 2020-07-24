@@ -53,10 +53,14 @@
   };
 
   fileAvatarChooser.addEventListener('change', function () {
-    showPhoto(fileAvatarChooser, setAvatarParameter);
+    if (fileAvatarChooser.files[0] !== undefined) {
+      showPhoto(fileAvatarChooser, setAvatarParameter);
+    }
   });
 
   fileHouseChooser.addEventListener('change', function () {
-    showPhoto(fileHouseChooser, createNewPhoto);
+    if (fileHouseChooser.files[0] !== undefined) {
+      showPhoto(fileHouseChooser, createNewPhoto);
+    }
   });
 })();
